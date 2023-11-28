@@ -227,13 +227,12 @@ int main()
             ImGui::ShowDemoWindow();
         }
         {
-            ImGui::Begin("test");
+            ImGui::Begin("≤‚ ‘º”‘ÿÕº∆¨");
             ImGui::SetWindowSize({ 600, 600 }, ImGuiCond_Once);
             ImVec2 size = ImGui::GetWindowSize();
             my_image_width = size.x;
             my_image_height = size.y;
             ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
-            ImGui::Checkbox("ºÚ“◊º∆À„∆˜", &show_another_window);
             ImGui::End();
         }
         {
