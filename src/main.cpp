@@ -227,7 +227,7 @@ int main()
             ImGui::ShowDemoWindow();
         }
         {
-            ImGui::Begin("≤‚ ‘º”‘ÿÕº∆¨");
+            ImGui::Begin("test");
             ImGui::SetWindowSize({ 600, 600 }, ImGuiCond_Once);
             ImVec2 size = ImGui::GetWindowSize();
             my_image_width = size.x;
