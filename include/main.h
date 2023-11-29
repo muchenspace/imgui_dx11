@@ -5,7 +5,7 @@
 #include "Font.h"
 #include <d3d11.h>
 #include <stdio.h>
-
+#include "imgui_internal.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma execution_character_set("utf-8")
