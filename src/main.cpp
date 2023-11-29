@@ -246,12 +246,9 @@ int main()
                 ImGui::Checkbox("绘制圆形", &show_Circle);
                 ImGui::Checkbox("绘制射线", &show_line);
                 ImGui::Checkbox("绘制矩形", &show_box);
-
             }
             if (ImGui::CollapsingHeader("设置"))
             {
-
-
                 if (ImGui::TreeNode("绘制项目"))
                 {
                     if (ImGui::TreeNode("圆角"))
