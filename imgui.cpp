@@ -14307,8 +14307,13 @@ static bool ImGui::GetWindowAlwaysWantOwnViewport(ImGuiWindow* window)
                 if ((window->Flags & (ImGuiWindowFlags_ChildWindow | ImGuiWindowFlags_ChildMenu | ImGuiWindowFlags_Tooltip)) == 0)
                     if ((window->Flags & ImGuiWindowFlags_Popup) == 0 || (window->Flags & ImGuiWindowFlags_Modal) != 0)
                         return true;*/
-    std::string nam{ "mu" };
-    if (window->Name==nam)
+    std::string name1{ "mu" };
+    std::string name2{ "muchen" };
+    if (window->Name==name1)
+    {
+        return true;
+    }
+    else if (window->Name == name2)
     {
         return true;
     }

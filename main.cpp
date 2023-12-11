@@ -247,9 +247,9 @@ int main()
 
         }
         {
-            ImGui::Begin("by,沐辰");
+            ImGui::Begin("muchen");
            
-            ImGui::SetWindowSize({ 2777, 600 }, ImGuiCond_Once);
+            ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
             if (ImGui::CollapsingHeader("功能"))
             {
                 ImGui::Checkbox("简易计算器", &show_another_window);
