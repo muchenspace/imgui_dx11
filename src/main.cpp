@@ -69,7 +69,6 @@ bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_sr
 
 
 
-
 int main()
 {
 
@@ -80,8 +79,8 @@ int main()
 
 
 
-    // HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui",WS_POPUP, 100, 100, 1920, 1080, nullptr, nullptr, wc.hInstance, nullptr);
-    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui", WS_OVERLAPPEDWINDOW, 100,100, 800, 600, nullptr, nullptr, wc.hInstance, nullptr);
+     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui",WS_POPUP, 0, 0, 2560, 1440, nullptr, nullptr, wc.hInstance, nullptr);//隐藏标题
+    //HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui", WS_OVERLAPPEDWINDOW, 100,100, 800, 600, nullptr, nullptr, wc.hInstance, nullptr);
 
 
 
@@ -102,9 +101,9 @@ int main()
 
     ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//窗口透明
 
-    //LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-    //exStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
-    //SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//鼠标穿透
+    LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+    exStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
+    SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//鼠标穿透
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -113,7 +112,7 @@ int main()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-    //io.ConfigViewportsNoAutoMerge = true;
+    io.ConfigViewportsNoAutoMerge = true;
 
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -150,6 +149,7 @@ int main()
 
 
 
+
     bool done = false;
     while (!done)
     {
@@ -178,11 +178,12 @@ int main()
 
 
 
-        static bool show_demo_window = false;
-        static bool show_another_window = false;
-        static bool show_line = false;
-        static bool show_Circle = false;
-        static bool show_box = false;
+        
+        static bool show_demo_window{};
+        static bool show_another_window{};
+        static bool show_line{true};
+        static bool show_Circle{};
+        static bool show_box{};
 
 
         static float line_cx = 2;
@@ -199,10 +200,10 @@ int main()
         static ImVec2 Circle_coord{ 400,800 };
 
 
-        static ImColor Circle_color = ImColor(255, 0, 0);
-        static ImVec4  clear_color = ImVec4(0, 0, 0, 0);
-        static ImColor line_color = ImColor(255, 0, 0);
-        static ImColor box_color = ImColor(43, 255, 0);
+        static ImColor Circle_color = ImColor{ 255, 0, 0 };
+        static ImVec4  clear_color = ImVec4{ 0, 0, 0, 0 };
+        static ImColor line_color = ImColor{ 255, 0, 0 };
+        static ImColor box_color = ImColor{ 43, 255, 0 };
         static ImGuiStyle ref_saved_style;
         static int style_idx = 0;
         //////////////////////////////////定义区结束
@@ -227,22 +228,28 @@ int main()
             ImGui::ShowDemoWindow();
         }
         {
-            ImGui::Begin("test");
+            ImGui::Begin("mu", NULL, ImGuiViewportFlags_muchen);
+            
+            
+
+
             ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
+           
             ImVec2 leftuppos = TheWindow->Pos;
             ImVec2 size = ImGui::GetWindowSize();
             ImVec2 rightdownpos;
-            rightdownpos.x = leftuppos.x + size.x;
+            rightdownpos.x = leftuppos.x + size.x ;
             rightdownpos.y = leftuppos.y + size.y;
             TheWindow->DrawList->AddImage(my_texture,leftuppos,rightdownpos);
             ImGui::Button("test");
-            //ImGui::Image((void*)my_texture, ImVec2(my_image_width, my_image_height));
             ImGui::End();
+            
+
         }
         {
             ImGui::Begin("by,沐辰");
-            ImGui::SetWindowSize({ 600, 600 }, ImGuiCond_Once);
-            
+           
+            ImGui::SetWindowSize({ 2777, 600 }, ImGuiCond_Once);
             if (ImGui::CollapsingHeader("功能"))
             {
                 ImGui::Checkbox("简易计算器", &show_another_window);
@@ -324,8 +331,7 @@ int main()
                         }
                     }
                     ImGui::ColorEdit3("字体颜色", (float*)&style.Colors[0]);
-                   // ShowDemoWindowWidgets();
-
+                 
                     ImGui::TreePop();
                 }
 
@@ -335,6 +341,7 @@ int main()
             {
                 exit(0);
             }
+            
             ImGui::End();
         }
         if (show_another_window)

@@ -14300,15 +14300,21 @@ void ImGui::SetWindowViewport(ImGuiWindow* window, ImGuiViewportP* viewport)
 static bool ImGui::GetWindowAlwaysWantOwnViewport(ImGuiWindow* window)
 {
     // Tooltips and menus are not automatically forced into their own viewport when the NoMerge flag is set, however the multiplication of viewports makes them more likely to protrude and create their own.
-    ImGuiContext& g = *GImGui;
+   /* ImGuiContext& g = *GImGui;
     if (g.IO.ConfigViewportsNoAutoMerge || (window->WindowClass.ViewportFlagsOverrideSet & ImGuiViewportFlags_NoAutoMerge))
         if (g.ConfigFlagsCurrFrame & ImGuiConfigFlags_ViewportsEnable)
             if (!window->DockIsActive)
                 if ((window->Flags & (ImGuiWindowFlags_ChildWindow | ImGuiWindowFlags_ChildMenu | ImGuiWindowFlags_Tooltip)) == 0)
                     if ((window->Flags & ImGuiWindowFlags_Popup) == 0 || (window->Flags & ImGuiWindowFlags_Modal) != 0)
-                        return true;
+                        return true;*/
+    std::string nam{ "mu" };
+    if (window->Name==nam)
+    {
+        return true;
+    }
     return false;
-}
+}//imgui通过这个函数判断窗口是否要合并
+//返回false就不会被自动脱离
 
 static bool ImGui::UpdateTryMergeWindowIntoHostViewport(ImGuiWindow* window, ImGuiViewportP* viewport)
 {
