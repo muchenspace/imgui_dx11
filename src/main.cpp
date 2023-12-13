@@ -83,7 +83,7 @@ int main()
     //HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui", WS_OVERLAPPEDWINDOW, 100,100, 800, 600, nullptr, nullptr, wc.hInstance, nullptr);
 
 
-
+     
 
 
     if (!CreateDeviceD3D(hwnd))
@@ -112,7 +112,7 @@ int main()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-    io.ConfigViewportsNoAutoMerge = true;
+    //io.ConfigViewportsNoAutoMerge = true;
 
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -148,8 +148,7 @@ int main()
 
 
 
-
-
+   
     bool done = false;
     while (!done)
     {
@@ -174,18 +173,15 @@ int main()
             CreateRenderTarget();
         }
         //////////////////////////////////定义区
-      
-
-
-
+     
         
         static bool show_demo_window{};
         static bool show_another_window{};
-        static bool show_line{true};
+        static bool show_line{};
         static bool show_Circle{};
         static bool show_box{};
 
-
+       
         static float line_cx = 2;
         static float Circle_cx = 2;
         static float box_cx = 2;
@@ -228,13 +224,11 @@ int main()
             ImGui::ShowDemoWindow();
         }
         {
-            ImGui::Begin("mu", NULL, ImGuiViewportFlags_muchen);
-            
-            
-
-
+            ImGuiWindowClass noAutoMerge;
+            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
+            ImGui::Begin("123");
             ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
-           
             ImVec2 leftuppos = TheWindow->Pos;
             ImVec2 size = ImGui::GetWindowSize();
             ImVec2 rightdownpos;
@@ -242,13 +236,18 @@ int main()
             rightdownpos.y = leftuppos.y + size.y;
             TheWindow->DrawList->AddImage(my_texture,leftuppos,rightdownpos);
             ImGui::Button("test");
+            
             ImGui::End();
             
 
         }
+       
+      
         {
-            ImGui::Begin("muchen");
-           
+            ImGuiWindowClass noAutoMerge;
+            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            ImGui::SetNextWindowClass(&noAutoMerge);
+            ImGui::Begin("by,,muchen");
             ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
             if (ImGui::CollapsingHeader("功能"))
             {
@@ -341,11 +340,25 @@ int main()
             {
                 exit(0);
             }
-            
+            {
+                ImGuiKey start_key = (ImGuiKey)0;
+                struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+                for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
+                {
+                    if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue;
+                    
+                    ImGui::Text("%s", ImGui::GetKeyName(key));
+                    ImGui::SameLine();
+
+                }
+            }
             ImGui::End();
         }
         if (show_another_window)
         {
+            ImGuiWindowClass noAutoMerge;
+            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            ImGui::SetNextWindowClass(&noAutoMerge);
             static int arr[2] = { 0,0 };
             static float arr1[2] = { 0,0 };
             ImGui::Begin("简易计算器");

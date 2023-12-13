@@ -360,6 +360,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     // Main body of the Demo window starts here.
     if (!ImGui::Begin("Dear ImGui Demo", p_open, window_flags))
     {
+        
         // Early out if the window is collapsed, as an optimization.
         ImGui::End();
         return;

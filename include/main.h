@@ -11,6 +11,10 @@
 #pragma execution_character_set("utf-8")
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include <windows.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "winmm.lib")
 
 
 ImVec4 RGBAtoIV4(int r, int g, int b, int a) {
