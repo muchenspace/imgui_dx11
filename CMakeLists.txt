@@ -10,4 +10,4 @@ include_directories(
 
 file(GLOB_RECURSE src "./src/*.cpp")
 
-add_executable(MyExecutable ${src})
+add_executable(Imgui_dx11Imgui_dx11 ${src})
