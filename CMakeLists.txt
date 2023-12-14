@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
-
+ 
 project(Imgui_dx11)
 
 include_directories(
@@ -10,4 +9,4 @@ include_directories(
 
 file(GLOB_RECURSE src "./src/*.cpp")
 
-add_executable(Imgui_dx11Imgui_dx11 ${src})
+add_executable(Imgui_dx11 ${src})
