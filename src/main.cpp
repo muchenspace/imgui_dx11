@@ -1,7 +1,16 @@
 #include "main.h"
 
+//ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//为渲染窗口设置透明
+//
+//LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+//exStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
+//SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//鼠标穿透，记得创建新窗口的时候让窗口脱离，不然会一起没触摸
 
+//SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);//设置优先级别最高
 
+//ImGuiWindowClass noAutoMerge;
+//noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+//ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离渲染窗口
 
 static ID3D11Device* g_pd3dDevice = nullptr;
 static ID3D11DeviceContext* g_pd3dDeviceContext = nullptr;
@@ -236,10 +245,7 @@ int main()
             rightdownpos.y = leftuppos.y + size.y;
             TheWindow->DrawList->AddImage(my_texture,leftuppos,rightdownpos);
             ImGui::Button("test");
-            
             ImGui::End();
-            
-
         }
        
       
