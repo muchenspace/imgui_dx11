@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 //ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//为渲染窗口设置透明
 //
 //LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -92,8 +93,7 @@ int main()
     //HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui", WS_OVERLAPPEDWINDOW, 100,100, 800, 600, nullptr, nullptr, wc.hInstance, nullptr);
 
 
-     
-
+    
 
     if (!CreateDeviceD3D(hwnd))
     {
@@ -113,6 +113,7 @@ int main()
     LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
     exStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
     SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//鼠标穿透
+
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -189,7 +190,7 @@ int main()
         static bool show_line{};
         static bool show_Circle{};
         static bool show_box{};
-
+        static bool show_calculator{};
        
         static float line_cx = 2;
         static float Circle_cx = 2;
@@ -203,6 +204,8 @@ int main()
         static ImVec2 box_coord1{ 200,300 };
         static ImVec2 box_coord2{ 350,550 };
         static ImVec2 Circle_coord{ 400,800 };
+
+        static std::string result{};
 
 
         static ImColor Circle_color = ImColor{ 255, 0, 0 };
@@ -232,10 +235,14 @@ int main()
         {
             ImGui::ShowDemoWindow();
         }
+        
+        
+       
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
+            
             ImGui::Begin("123");
             ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
             ImVec2 leftuppos = TheWindow->Pos;
@@ -248,16 +255,18 @@ int main()
             ImGui::End();
         }
        
-      
+        
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);
+
             ImGui::Begin("by,,muchen");
             ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
             if (ImGui::CollapsingHeader("功能"))
             {
                 ImGui::Checkbox("简易计算器", &show_another_window);
+                ImGui::Checkbox("计算器2.0",&show_calculator);
                 ImGui::Checkbox("展示demo", &show_demo_window);
                 ImGui::Checkbox("绘制圆形", &show_Circle);
                 ImGui::Checkbox("绘制射线", &show_line);
@@ -405,7 +414,116 @@ int main()
                 show_another_window = false;
             }
             ImGui::End();
-
+        }
+        if (show_calculator)
+        {
+            
+            ImGuiWindowClass noAutoMerge;
+            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            ImGui::SetNextWindowClass(&noAutoMerge);
+            ImGui::Begin("计算器");
+            ImGui::Text(result.c_str());
+            ImGui::Text("");
+            if (ImGui::Button("C", ImVec2(50, 50)))
+            {
+                result.clear();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("+", ImVec2(50, 50)))
+            {
+                result += "+";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("-", ImVec2(50, 50)))
+            {
+                result += "-";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("<-", ImVec2(50, 50)))
+            {
+                result.pop_back();
+            }
+            if (ImGui::Button("7", ImVec2(50, 50)))
+            {
+                result += "7";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("8", ImVec2(50, 50)))
+            {
+                result += "8";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("9", ImVec2(50, 50)))
+            {
+                result += "9";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("*", ImVec2(50, 50)))
+            {
+                result += "*";
+            }
+            if (ImGui::Button("4", ImVec2(50, 50)))
+            {
+                result += "4";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("5", ImVec2(50, 50)))
+            {
+                result += "5";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("6", ImVec2(50, 50)))
+            {
+                result += "6";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("/", ImVec2(50, 50)))
+            {
+                result += "/";
+            }
+            if (ImGui::Button("1", ImVec2(50, 50)))
+            {
+                result += "1";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("2", ImVec2(50, 50)))
+            {
+                result += "2";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("3", ImVec2(50, 50)))
+            {
+                result += "3";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button(".", ImVec2(50, 50)))
+            {
+                result += ".";
+            }
+            if (ImGui::Button("(", ImVec2(50, 50)))
+            {
+                result += "(";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("0", ImVec2(50, 50)))
+            {
+                result += "0";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button(")", ImVec2(50, 50)))
+            {
+                result += ")";
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("=", ImVec2(50, 50)))
+            {
+                double buff = evaluate(result);
+                if (buff == static_cast<int>(buff)) // 检查结果是否为整数
+                    result = std::to_string(static_cast<int>(buff)); // 如果是整数，就转换为int类型
+                else
+                    result = std::to_string(buff); // 如果不是整数，就保持为double类型
+            }
+            ImGui::End();
         }
 
         ImGui::Render();
