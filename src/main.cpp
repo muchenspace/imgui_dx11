@@ -1,6 +1,40 @@
 #include "main.h"
 
 
+/*
+                          _ooOoo_
+                         o8888888o
+                         88" . "88
+                         (| -_- |)
+                         O\  =  /O
+                      ____/`---'\____
+                    .'  \\|     |//  `.
+                   /  \\|||  :  |||//  \
+                  /  _||||| -:- |||||-  \
+                  |   | \\\  -  /// |   |
+                  | \_|  ''\---/''  |   |
+                  \  .-\__  `-`  ___/-. /
+                ___`. .'  /--.--\  `. . __
+             ."" '<  `.___\_<|>_/___.'  >'"".
+            | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+            \  \ `-.   \_ __\ /__ _/   .-` /  /
+       ======`-.____`-.___\_____/___.-`____.-'======
+                          `=---='
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                佛祖保佑                  永无BUG
+                佛祖镇楼                  BUG辟易
+           佛曰:
+                   写字楼里写字间，写字间里程序员；
+                   程序人员写程序，又拿程序换酒钱。
+                   酒醒只在网上坐，酒醉还来网下眠；
+                   酒醉酒醒日复日，网上网下年复年。
+                   但愿老死电脑间，不愿鞠躬老板前；
+                   奔驰宝马贵者趣，公交自行程序员。
+                   别人笑我忒疯癫，我笑自己命太贱；
+                   不见满街漂亮妹，哪个归得程序员？
+ */
+
+
 //ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//为渲染窗口设置透明
 //
 //LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -25,6 +59,52 @@ void CreateRenderTarget();
 void CleanupRenderTarget();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+
+
+//////////////////////////////////定义区
+
+
+static bool show_demo_window{};
+static bool show_another_window{};
+static bool show_line{};
+static bool show_Circle{};
+static bool show_test{};
+static bool show_box{};
+static bool show_calculator{};
+
+static float line_cx = 1;
+static float Circle_cx = 2;
+static float box_cx = 1;
+static float arc_cx = 3;
+
+static float box_yj = 1;
+
+static int distance{ 13 };
+
+static float hp{ 82 };
+
+static ImVec2 bg_zr{ 444.5,19.5 };
+static ImVec2 bg_bot{ 573.1,19.5 };
+static ImVec2 line_coord1{ 576,82.3 };
+static ImVec2 line_coord2{ 640,314 };
+static ImVec2 box_coord1{ 584.7,340.1 };
+static ImVec2 box_coord2{ 702.3,547.7 };
+static ImVec2 Circle_coord{ 400,800 };
+
+
+
+
+static std::string result{};
+
+static int menutap{ 1 };
+
+static ImColor Circle_color = ImColor{ 255, 0, 0 };
+static ImVec4  clear_color = ImVec4{ 0, 0, 0, 0 };
+static ImColor line_color = ImColor{ 255, 255, 255 };
+static ImColor box_color = ImColor{ 43, 255, 0 };
+static ImGuiStyle ref_saved_style;
+static int style_idx = 0;
+//////////////////////////////////定义区结束
 
 
 
@@ -75,9 +155,26 @@ bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_sr
 }
 
 
+void layout1()
+{
+    ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
+    ImVec2 leftuppos = TheWindow->Pos;
+    ImVec2 size = ImGui::GetWindowSize();
+    TheWindow->DrawList->AddText(ImVec2(leftuppos.x+(size.x)/2.5,leftuppos.y+90),ImColor(0,255,0),"by沐辰");
+    ImGui::Text("");
+    if (ImGui::Button("退出"))
+    {
+        exit(0);
+    }
+}
 
-
-
+void layout2()
+{
+    ImGui::Checkbox("绘制圆形", &show_Circle);
+    ImGui::Checkbox("测试绘图", &show_test);
+    ImGui::Checkbox("绘制射线", &show_line);
+    ImGui::Checkbox("绘制矩形", &show_box);
+}
 
 int main()
 {
@@ -140,8 +237,8 @@ int main()
     Font_cfg.FontDataOwnedByAtlas = false;
 
 
-    ImFont* Font = io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 18.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
-    ImFont* Font_Big = io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 24.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
+    ImFont* Font = io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 20.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
+    ImFont* Font_Big = io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 60.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
 
 
 
@@ -150,13 +247,19 @@ int main()
     ImGui::StyleColorsLight();
     style.Colors[ImGuiCol_Header] = RGBAtoIV4(36, 54, 74, 79);
 
-    int my_image_width;//图长
-    int my_image_height;//图宽
+    int my_image_width1;//图长
+    int my_image_height1;//图宽
+    int jcly_image_width;//图长
+    int jcly_image_height;//图宽
     ID3D11ShaderResourceView* my_texture = NULL;
-    bool ret = LoadTextureFromFile("jcly.png", &my_texture,&my_image_width, &my_image_height);
+    ID3D11ShaderResourceView* my_texture2 = NULL;
+    ID3D11ShaderResourceView* my_texture3 = NULL;
+    bool ret = LoadTextureFromFile("1.png", &my_texture,&my_image_width1, &my_image_height1);
+    bool ret2 = LoadTextureFromFile("2.png", &my_texture2, &my_image_width1, &my_image_height1);
+    bool ret3 = LoadTextureFromFile("jcly.png", &my_texture3, &jcly_image_width, &jcly_image_height);
     IM_ASSERT(ret);
-
-
+    IM_ASSERT(ret2);
+    IM_ASSERT(ret3);
 
    
     bool done = false;
@@ -182,39 +285,7 @@ int main()
             g_ResizeWidth = g_ResizeHeight = 0;
             CreateRenderTarget();
         }
-        //////////////////////////////////定义区
-     
-        
-        static bool show_demo_window{};
-        static bool show_another_window{};
-        static bool show_line{};
-        static bool show_Circle{};
-        static bool show_box{};
-        static bool show_calculator{};
        
-        static float line_cx = 2;
-        static float Circle_cx = 2;
-        static float box_cx = 2;
-
-
-        static float box_yj = 20;
-
-        static ImVec2 line_coord1{ 200,200 };
-        static ImVec2 line_coord2{ 200,400 };
-        static ImVec2 box_coord1{ 200,300 };
-        static ImVec2 box_coord2{ 350,550 };
-        static ImVec2 Circle_coord{ 400,800 };
-
-        static std::string result{};
-
-
-        static ImColor Circle_color = ImColor{ 255, 0, 0 };
-        static ImVec4  clear_color = ImVec4{ 0, 0, 0, 0 };
-        static ImColor line_color = ImColor{ 255, 0, 0 };
-        static ImColor box_color = ImColor{ 43, 255, 0 };
-        static ImGuiStyle ref_saved_style;
-        static int style_idx = 0;
-        //////////////////////////////////定义区结束
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
@@ -235,186 +306,249 @@ int main()
         {
             ImGui::ShowDemoWindow();
         }
+        if (show_test)
+        {
+            ImGui::GetForegroundDrawList()->AddRect(box_coord1, box_coord2, box_color, box_yj, NULL, box_cx);
+            ImGui::GetForegroundDrawList()->AddLine(line_coord1, line_coord2, line_color, line_cx);
+            ImGui::GetForegroundDrawList()->PathArcTo(ImVec2 { 645,239 } , 82.0, 0.0f, 82 / 15.9154f, 50); 
+            ImGui::GetForegroundDrawList()->PathStroke(ImColor(0, 255, 0), false, 3.0);
+            ImGui::GetBackgroundDrawList()->AddImage(my_texture, bg_bot, ImVec2(bg_bot.x + 128, bg_bot.y + 64));
+            ImGui::GetBackgroundDrawList()->AddImage(my_texture2, bg_zr, ImVec2(bg_zr.x + 128, bg_zr.y + 64));
+            ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 645.2,42.3 }, ImColor(0, 255, 0), "26");
+            ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 522.4,40.8 }, ImColor(0, 255, 0), "25");
+            ImGui::GetBackgroundDrawList()->AddText(ImVec2(590.5, 320), ImColor(0, 255, 0), "[Ai]");
+            ImGui::PushFont(Font_Big);
+            ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 578,205 }, ImColor(0, 255, 0), std::string(std::to_string(distance) + std::string(" m ")).c_str());
+            ImGui::PopFont();
+        }
+      
+
         
-        
-       
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
-            
-            ImGui::Begin("123");
-            ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
-            ImVec2 leftuppos = TheWindow->Pos;
-            ImVec2 size = ImGui::GetWindowSize();
-            ImVec2 rightdownpos;
-            rightdownpos.x = leftuppos.x + size.x ;
-            rightdownpos.y = leftuppos.y + size.y;
-            TheWindow->DrawList->AddImage(my_texture,leftuppos,rightdownpos);
-            ImGui::Button("test");
+            ImGui::Begin("竖布局");
+            if (ImGui::Button("主菜单", ImVec2(80, 50)))
+            {
+                menutap = 1;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("绘制", ImVec2(80, 50)))
+            {
+                menutap = 2;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("其他", ImVec2(80, 50)))
+            {
+                menutap = 3;
+            }
+            switch (menutap)
+            {
+            case 1 :
+                layout1();
+                break;
+            case 2:
+                layout2();
+                break;
+            case 3:
+
+              
+                myCheckbox2("test",&show_calculator);
+                break;
+            }
             ImGui::End();
         }
        
+       
+        {
+            //ImGuiWindowClass noAutoMerge;
+            //noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            //ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
+            //ImGui::Begin("test");
+            //ImGui::SetWindowSize(ImVec2(jcly_image_width, jcly_image_height), ImGuiCond_Once);
+            //ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
+            //ImVec2 leftuppos = TheWindow->Pos;
+            //ImVec2 size = ImGui::GetWindowSize();
+            //ImVec2 rightdownpos;
+            //rightdownpos.x = leftuppos.x + size.x;
+            //rightdownpos.y = leftuppos.y + size.y;
+            //TheWindow->DrawList->AddImage(my_texture3,leftuppos,rightdownpos);
+            //ImGui::Button("1");
+            //ImGui::End();
+        }
         
-        {
-            ImGuiWindowClass noAutoMerge;
-            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-            ImGui::SetNextWindowClass(&noAutoMerge);
+        //{
+        //    ImGuiWindowClass noAutoMerge;
+        //    noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+        //    ImGui::SetNextWindowClass(&noAutoMerge);
 
-            ImGui::Begin("by,,muchen");
-            ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
-            if (ImGui::CollapsingHeader("功能"))
-            {
-                ImGui::Checkbox("简易计算器", &show_another_window);
-                ImGui::Checkbox("计算器2.0",&show_calculator);
-                ImGui::Checkbox("展示demo", &show_demo_window);
-                ImGui::Checkbox("绘制圆形", &show_Circle);
-                ImGui::Checkbox("绘制射线", &show_line);
-                ImGui::Checkbox("绘制矩形", &show_box);
-            }
-            if (ImGui::CollapsingHeader("设置"))
-            {
-                if (ImGui::TreeNode("绘制项目"))
-                {
-                    if (ImGui::TreeNode("圆角"))
-                    {
-                        ImGui::SliderFloat("矩形圆角", &box_yj, 1.0f, 100.0f);
-                        ImGui::TreePop();
-                    }
-                    if (ImGui::TreeNode("宽度"))
-                    {
-                        ImGui::SliderFloat("圆形粗细", &Circle_cx, 1.0f, 10.0f);
-                        ImGui::SliderFloat("射线粗细", &line_cx, 1.0f, 10.0f);
-                        ImGui::SliderFloat("矩形粗细", &box_cx, 1.0f, 10.0f);
-                        ImGui::TreePop();
-                    }
-                    if (ImGui::TreeNode("颜色"))
-                    {
-                        ImGui::ColorEdit3("射线颜色", (float*)&line_color);
-                        ImGui::ColorEdit3("圆形颜色", (float*)&Circle_color);
-                        ImGui::ColorEdit3("矩形颜色", (float*)&box_color);
-                        ImGui::TreePop();
-                    }
-                    if (ImGui::TreeNode("位置"))
-                    {
-                        if (ImGui::TreeNode("射线位置"))
-                        {
-                            ImGui::SliderFloat("射线x1", &line_coord1.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("射线y1", &line_coord1.y, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("射线x2", &line_coord2.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("射线y2", &line_coord2.y, 1.0f, 1000.0f);
-                            ImGui::TreePop();
-                        }
-                        if (ImGui::TreeNode("矩形位置"))
-                        {
-                            ImGui::SliderFloat("矩形1x", &box_coord1.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("矩形1y", &box_coord1.y, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("矩形2x", &box_coord2.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("矩形2y", &box_coord2.y, 1.0f, 1000.0f);
-                            ImGui::TreePop();
-                        }
-                        if (ImGui::TreeNode("圆形位置"))
-                        {
-                            ImGui::SliderFloat("圆形x1", &Circle_coord.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("圆形y1", &Circle_coord.y, 1.0f, 1000.0f);
-                            ImGui::TreePop();
-                        }
-                        ImGui::TreePop();
-                    }
-                    ImGui::TreePop();
-                }
-
-
-
-                if (ImGui::TreeNode("风格"))
-                {
-                    if (ImGui::Combo("颜色", &style_idx, "白色\0蓝色\0紫色\0"))
-                    {
-                        switch (style_idx)
-                        {
-                        case 0:
-                            ImGui::StyleColorsLight();
-                            style.Colors[ImGuiCol_Header] = RGBAtoIV4(36, 54, 74, 79);
-                            break;
-                        case 1:
-                            ImGui::StyleColorsDark();
-                            break;
-                        case 2:
-                            ImGui::StyleColorsClassic();
-                            break;
-                        }
-                    }
-                    ImGui::ColorEdit3("字体颜色", (float*)&style.Colors[0]);
-                 
-                    ImGui::TreePop();
-                }
-
-            }
-            ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
-            if (ImGui::Button("退出"))
-            {
-                exit(0);
-            }
-            {
-                ImGuiKey start_key = (ImGuiKey)0;
-                struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
-                for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
-                {
-                    if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue;
-                    
-                    ImGui::Text("%s", ImGui::GetKeyName(key));
-                    ImGui::SameLine();
-
-                }
-            }
-            ImGui::End();
-        }
-        if (show_another_window)
-        {
-            ImGuiWindowClass noAutoMerge;
-            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-            ImGui::SetNextWindowClass(&noAutoMerge);
-            static int arr[2] = { 0,0 };
-            static float arr1[2] = { 0,0 };
-            ImGui::Begin("简易计算器");
-            ImGui::SetWindowSize({ 600, 600 }, ImGuiCond_Once);
-
-            if (ImGui::CollapsingHeader("加法"))
-            {
-                ImGui::SliderInt("被加数", &arr[0], 0, 10, "%d");
-                ImGui::SliderInt("加数", &arr[1], 0, 10, "%d");
-                ImGui::Text("结果=%d", arr[0] + arr[1]);
-            }
+        //    ImGui::Begin("by,,muchen");
+        //    ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
+        //    if (ImGui::CollapsingHeader("功能"))
+        //    {
+        //        ImGui::Checkbox("简易计算器", &show_another_window);
+        //        ImGui::Checkbox("计算器2.0",&show_calculator);
+        //        ImGui::Checkbox("展示demo", &show_demo_window);
+        //        ImGui::Checkbox("绘制圆形", &show_Circle);
+        //        ImGui::Checkbox("测试绘图", &show_test);
+        //        ImGui::Checkbox("绘制射线", &show_line);
+        //        ImGui::Checkbox("绘制矩形", &show_box);
+        //    }
+        //    if (ImGui::CollapsingHeader("设置"))
+        //    {
+        //        if (ImGui::TreeNode("绘制项目"))
+        //        {
+        //            if (ImGui::TreeNode("圆角"))
+        //            {
+        //                ImGui::SliderFloat("矩形圆角", &box_yj, 1.0f, 100.0f);
+        //                ImGui::TreePop();
+        //            }
+        //           
+        //            if (ImGui::TreeNode("宽度"))
+        //            {
+        //                ImGui::SliderFloat("圆形粗细", &Circle_cx, 1.0f, 10.0f);
+        //                ImGui::SliderFloat("射线粗细", &line_cx, 1.0f, 10.0f);
+        //                ImGui::SliderFloat("矩形粗细", &box_cx, 1.0f, 10.0f);
+        //                ImGui::SliderFloat("圆弧粗细", &arc_cx, 1.0f, 10.0f);
+        //                ImGui::TreePop();
+        //            }
+        //            if (ImGui::TreeNode("弧度"))
+        //            {
+        //                ImGui::SliderFloat("弧度", &hp, 1.0f, 100.0f);
+        //                ImGui::TreePop();
+        //            }
+        //            if (ImGui::TreeNode("颜色"))
+        //            {
+        //                ImGui::ColorEdit3("射线颜色", (float*)&line_color);
+        //                ImGui::ColorEdit3("圆形颜色", (float*)&Circle_color);
+        //                ImGui::ColorEdit3("矩形颜色", (float*)&box_color);
+        //              
+        //                ImGui::TreePop();
+        //            }
+        //            if (ImGui::TreeNode("位置"))
+        //            {
+        //               
+        //                if (ImGui::TreeNode("射线位置"))
+        //                {
+        //                    ImGui::SliderFloat("射线x1", &line_coord1.x, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("射线y1", &line_coord1.y, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("射线x2", &line_coord2.x, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("射线y2", &line_coord2.y, 1.0f, 1000.0f);
+        //                    ImGui::TreePop();
+        //                }
+        //               
+        //                if (ImGui::TreeNode("矩形位置"))
+        //                {
+        //                    ImGui::SliderFloat("矩形1x", &box_coord1.x, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("矩形1y", &box_coord1.y, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("矩形2x", &box_coord2.x, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("矩形2y", &box_coord2.y, 1.0f, 1000.0f);
+        //                    ImGui::TreePop();
+        //                }
+        //                if (ImGui::TreeNode("圆形位置"))
+        //                {
+        //                    ImGui::SliderFloat("圆形x1", &Circle_coord.x, 1.0f, 1000.0f);
+        //                    ImGui::SliderFloat("圆形y1", &Circle_coord.y, 1.0f, 1000.0f);
+        //                    ImGui::TreePop();
+        //                }
+        //               
+        //                ImGui::TreePop();
+        //            }
+        //            ImGui::TreePop();
+        //        }
 
 
-            if (ImGui::CollapsingHeader("减法"))
-            {
-                ImGui::SliderInt("被减数", &arr[0], 0, 10, "%d");
-                ImGui::SliderInt("减数", &arr[1], 0, 10, "%d");
-                ImGui::Text("结果=%d", arr[0] - arr[1]);
-            }
+
+        //        if (ImGui::TreeNode("风格"))
+        //        {
+        //            if (ImGui::Combo("颜色", &style_idx, "白色\0蓝色\0紫色\0"))
+        //            {
+        //                switch (style_idx)
+        //                {
+        //                case 0:
+        //                    ImGui::StyleColorsLight();
+        //                    style.Colors[ImGuiCol_Header] = RGBAtoIV4(36, 54, 74, 79);
+        //                    break;
+        //                case 1:
+        //                    ImGui::StyleColorsDark();
+        //                    break;
+        //                case 2:
+        //                    ImGui::StyleColorsClassic();
+        //                    break;
+        //                }
+        //            }
+        //            ImGui::ColorEdit3("字体颜色", (float*)&style.Colors[0]);
+        //         
+        //            ImGui::TreePop();
+        //        }
+
+        //    }
+        //    ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
+        //    if (ImGui::Button("退出"))
+        //    {
+        //        exit(0);
+        //    }
+        //    {
+        //        ImGuiKey start_key = (ImGuiKey)0;
+        //        struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+        //        for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
+        //        {
+        //            if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue;
+        //            
+        //            ImGui::Text("%s", ImGui::GetKeyName(key));
+        //            ImGui::SameLine();
+
+        //        }
+        //    }
+        //    ImGui::End();
+        //}
+        //if (show_another_window)
+        //{
+        //    ImGuiWindowClass noAutoMerge;
+        //    noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+        //    ImGui::SetNextWindowClass(&noAutoMerge);
+        //    static int arr[2] = { 0,0 };
+        //    static float arr1[2] = { 0,0 };
+        //    ImGui::Begin("简易计算器");
+        //    ImGui::SetWindowSize({ 600, 600 }, ImGuiCond_Once);
+
+        //    if (ImGui::CollapsingHeader("加法"))
+        //    {
+        //        ImGui::SliderInt("被加数", &arr[0], 0, 10, "%d");
+        //        ImGui::SliderInt("加数", &arr[1], 0, 10, "%d");
+        //        ImGui::Text("结果=%d", arr[0] + arr[1]);
+        //    }
 
 
-            if (ImGui::CollapsingHeader("乘法"))
-            {
-                ImGui::SliderInt("乘数1", &arr[0], 0, 10, "%d");
-                ImGui::SliderInt("乘数2", &arr[1], 0, 10, "%d");
-                ImGui::Text("结果=%d", arr[0] * arr[1]);
-            }
+        //    if (ImGui::CollapsingHeader("减法"))
+        //    {
+        //        ImGui::SliderInt("被减数", &arr[0], 0, 10, "%d");
+        //        ImGui::SliderInt("减数", &arr[1], 0, 10, "%d");
+        //        ImGui::Text("结果=%d", arr[0] - arr[1]);
+        //    }
 
-            if (ImGui::CollapsingHeader("除法"))
-            {
-                ImGui::SliderFloat("被除数", &arr1[0], 0.0f, 10.0f, "%.0f");
-                ImGui::SliderFloat("除数", &arr1[1], 0.0f, 10.0f, "%.0f");
-                ImGui::Text("结果=%.3f", arr1[0] / arr1[1]);
-            }
 
-            if (ImGui::Button("关闭这个窗口"))
-            {
-                show_another_window = false;
-            }
-            ImGui::End();
-        }
+        //    if (ImGui::CollapsingHeader("乘法"))
+        //    {
+        //        ImGui::SliderInt("乘数1", &arr[0], 0, 10, "%d");
+        //        ImGui::SliderInt("乘数2", &arr[1], 0, 10, "%d");
+        //        ImGui::Text("结果=%d", arr[0] * arr[1]);
+        //    }
+
+        //    if (ImGui::CollapsingHeader("除法"))
+        //    {
+        //        ImGui::SliderFloat("被除数", &arr1[0], 0.0f, 10.0f, "%.0f");
+        //        ImGui::SliderFloat("除数", &arr1[1], 0.0f, 10.0f, "%.0f");
+        //        ImGui::Text("结果=%.3f", arr1[0] / arr1[1]);
+        //    }
+
+        //    if (ImGui::Button("关闭这个窗口"))
+        //    {
+        //        show_another_window = false;
+        //    }
+        //    ImGui::End();
+        //}
         if (show_calculator)
         {
             
