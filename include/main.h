@@ -14,6 +14,8 @@
 #pragma comment(lib,"d3d11.lib")
 #pragma execution_character_set("utf-8")
 
+#define IMGUI_DISABLE_OBSOLETE_FUNCTIONS
+
 ImVec4 RGBAtoIV4(int r, int g, int b, int a) 
 {
     float newr = r / 255.0f;
@@ -121,3 +123,59 @@ double evaluate(std::string tokens)
     return values.top();
 }
 //算法来自百度
+
+
+
+void myCheckbox(std::string text , bool* b)
+{
+    ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return;//判断是否需要绘制
+
+
+    const ImGuiID id = window->GetID(text.c_str());//用text生成一个id
+    const ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//text的大小
+    const ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 50, window->DC.CursorPos.y + 50));//控件的位置
+
+    window->DrawList->AddRectFilled(window->DC.CursorPos,ImVec2(window->DC.CursorPos.x+50, window->DC.CursorPos.y+50),ImColor(61,45,45));//添加一个背景
+    if (*b)
+    {
+        window->DrawList->AddRectFilled(ImVec2(window->DC.CursorPos.x+10, window->DC.CursorPos.y + 10), ImVec2(window->DC.CursorPos.x + 40, window->DC.CursorPos.y + 40), ImColor(0, 255, 0));
+    }//如果*b为真，添加一个内嵌矩形
+    window->DrawList->AddText(ImVec2(window->DC.CursorPos.x + 55 , window->DC.CursorPos.y + 25 -(text_size.y/2)),ImColor(0,255,0),text.c_str());//添加文字
+    ImGui::ItemAdd(bb, id);//添加item
+    ImGui::ItemSize(bb);//更新布局
+    if (ImGui::IsItemClicked())
+    {
+        *b = !*b;
+    }//如果被点击，就反转*b
+}
+
+
+void myCheckbox2(std::string text,bool* b)
+{
+    ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return;//判断是否需要绘制
+
+    ImGuiID id = window->GetID(text.c_str());
+    ImRect bb(window->DC.CursorPos,ImVec2(window->DC.CursorPos.x+50, window->DC.CursorPos.y+50));
+    ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//text的大小
+
+    window->DrawList->AddRectFilled(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 50, window->DC.CursorPos.y + 50),ImColor(0,0,0));
+    window->DrawList->AddText(ImVec2(window->DC.CursorPos.x + 55, window->DC.CursorPos.y + 25 - (text_size.y /2)), ImColor(0, 255, 0), text.c_str());
+    if (*b)
+    {
+        window->DrawList->AddRectFilled(ImVec2(window->DC.CursorPos.x + 10, window->DC.CursorPos.y + 10), ImVec2(window->DC.CursorPos.x + 40, window->DC.CursorPos.y + 40), ImColor(0, 255, 0));
+    }
+
+    
+
+    ImGui::ItemAdd(bb,id);
+    ImGui::ItemSize(bb);
+
+    if (ImGui::IsItemClicked())
+    {
+        *b = !*b;
+    }
+}
