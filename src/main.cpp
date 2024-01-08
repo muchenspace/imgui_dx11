@@ -267,7 +267,7 @@ int main()
     bool ret = LoadTextureFromFile("1.png", &my_texture,&my_image_width1, &my_image_height1);
     bool ret2 = LoadTextureFromFile("2.png", &my_texture2, &my_image_width1, &my_image_height1);
     bool ret3 = LoadTextureFromFile("jcly.png", &my_texture3, &jcly_image_width, &jcly_image_height);
-    bool ret4 = LoadTextureFromFile("wz.png", &my_texture4, &jcly_image_width, &jcly_image_height);
+    bool ret4 = LoadTextureFromFile("wz2.png", &my_texture4, &my_image_width1, &my_image_height1);
     IM_ASSERT(ret);
     IM_ASSERT(ret2);
     IM_ASSERT(ret3);
@@ -343,17 +343,17 @@ int main()
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
             ImGui::Begin("竖布局");
-            if (ImGui::Button("主菜单", ImVec2(80, 50)))
+            if (test.ImageButton("主菜单", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 1;
             }
             ImGui::SameLine();
-            if (ImGui::Button("绘制", ImVec2(80, 50)))
+            if (test.ImageButton("绘制", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 2;
             }
             ImGui::SameLine();
-            if (ImGui::Button("其他", ImVec2(80, 50)))
+            if (test.ImageButton("其他", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 3;
             }
@@ -366,14 +366,8 @@ int main()
                 layout2();
                 break;
             case 3:
-
-                static int t{};
-                if (test.ImageButton("仿王者button", my_texture4, ImVec2(299, 79)))
-                {
-                    std::cout << t << std::endl;
-                    t++;
-                }
-                
+                test.ImageButton("仿王者button", my_texture4, ImVec2(445/2, 107/2));
+                test.checkbox("hello",&show_calculator);
                 break;
             }
             ImGui::End();
