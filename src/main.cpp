@@ -1,4 +1,13 @@
 #include "main.h"
+#include "public.h"
+#include "Font.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include <iostream>
+#pragma comment(lib,"d3d11.lib")
+#pragma execution_character_set("utf-8")
+#include "tools.h"
+#include "widget.h"
 
 
 /*
@@ -254,12 +263,17 @@ int main()
     ID3D11ShaderResourceView* my_texture = NULL;
     ID3D11ShaderResourceView* my_texture2 = NULL;
     ID3D11ShaderResourceView* my_texture3 = NULL;
+    ID3D11ShaderResourceView* my_texture4 = NULL;
     bool ret = LoadTextureFromFile("1.png", &my_texture,&my_image_width1, &my_image_height1);
     bool ret2 = LoadTextureFromFile("2.png", &my_texture2, &my_image_width1, &my_image_height1);
     bool ret3 = LoadTextureFromFile("jcly.png", &my_texture3, &jcly_image_width, &jcly_image_height);
+    bool ret4 = LoadTextureFromFile("wz.png", &my_texture4, &jcly_image_width, &jcly_image_height);
     IM_ASSERT(ret);
     IM_ASSERT(ret2);
     IM_ASSERT(ret3);
+    IM_ASSERT(ret4);
+
+    static widget test{};
 
    
     bool done = false;
@@ -353,8 +367,13 @@ int main()
                 break;
             case 3:
 
-              
-                myCheckbox2("test",&show_calculator);
+                static int t{};
+                if (test.ImageButton("·ÂÍõÕßbutton", my_texture4, ImVec2(299, 79)))
+                {
+                    std::cout << t << std::endl;
+                    t++;
+                }
+                
                 break;
             }
             ImGui::End();
