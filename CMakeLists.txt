@@ -5,6 +5,8 @@ include_directories(
     ./include
     ./include/imgui
     ./include/stb_image
+    ./include/widget
+    ./include/tools
 )
 
 file(GLOB_RECURSE src "./src/*.cpp")
