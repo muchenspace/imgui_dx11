@@ -6,9 +6,14 @@
 #include <iostream>
 #pragma comment(lib,"d3d11.lib")
 #pragma execution_character_set("utf-8")
-#include "tools.h"
-#include "widget.h"
 
+
+
+
+
+
+import tools;
+import widget;
 
 /*
                           _ooOoo_

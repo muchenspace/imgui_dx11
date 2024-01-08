@@ -1,4 +1,5 @@
-#include "widget.h"
+#include "public.h"
+import widget;
 
 widget::widget() : style(GImGui->Style) 
 {
@@ -67,7 +68,7 @@ void widget::checkbox(std::string text, bool* b)
     {
         window->DrawList->AddRectFilled(ImVec2(window->DC.CursorPos.x + 10, window->DC.CursorPos.y + 10), ImVec2(window->DC.CursorPos.x + 40, window->DC.CursorPos.y + 40), ImColor(0, 255, 0));
     }//如果*b为真，添加一个内嵌矩形
-    window->DrawList->AddText(ImVec2(window->DC.CursorPos.x + 55, window->DC.CursorPos.y + 25 - (text_size.y / 2)), ImColor(0, 255, 0), text.c_str());//添加文字
+    window->DrawList->AddText(ImVec2(window->DC.CursorPos.x + 55, window->DC.CursorPos.y + 25 - (text_size.y / 2)), ImColor(style.Colors[ImGuiCol_Text]), text.c_str());//添加文字
     ImGui::ItemAdd(bb, id);//添加item
     ImGui::ItemSize(bb);//更新布局
     if (ImGui::IsItemClicked())
