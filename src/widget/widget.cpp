@@ -6,7 +6,7 @@ widget::widget() : style(GImGui->Style)
 
 }
 
-bool widget::ImageButton(std::string text, ID3D11ShaderResourceView* texture, ImVec2 size)
+bool widget::ImageButton(std::string text, ImTextureID texture, ImVec2 size)
 {
     if (texture == nullptr) 
     {
@@ -39,7 +39,7 @@ bool widget::ImageButton(std::string text, ID3D11ShaderResourceView* texture, Im
 
     if (ImGui::IsItemActive())
     {
-        window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//添加一个背景
+        //window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//添加一个背景
     }// 被按下并且没有弹出
 
     
@@ -59,18 +59,19 @@ void widget::checkbox(std::string text, bool* b)
         return;//判断是否需要绘制
 
 
+
     const ImGuiID id = window->GetID(text.c_str());//用text生成一个id
     const ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//text的大小
-    const ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 50, window->DC.CursorPos.y + 50));//控件的位置
+    const ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 30, window->DC.CursorPos.y + 30));//控件的位置
 
-    window->DrawList->AddRectFilled(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 50, window->DC.CursorPos.y + 50), ImColor(0, 0, 0));//添加一个背景
+    window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(style.Colors[ImGuiCol_FrameBg]));//添加一个背景
     if (*b)
     {
-        window->DrawList->AddRectFilled(ImVec2(window->DC.CursorPos.x + 10, window->DC.CursorPos.y + 10), ImVec2(window->DC.CursorPos.x + 40, window->DC.CursorPos.y + 40), ImColor(0, 255, 0));
+        window->DrawList->AddRectFilled(ImVec2( bb.Min.x + 5,bb.Min.y + 5 ),ImVec2( bb.Max.x -5,bb.Max.y -5 ), ImColor(style.Colors[ImGuiCol_CheckMark]));
     }//如果*b为真，添加一个内嵌矩形
-    window->DrawList->AddText(ImVec2(window->DC.CursorPos.x + 55, window->DC.CursorPos.y + 25 - (text_size.y / 2)), ImColor(style.Colors[ImGuiCol_Text]), text.c_str());//添加文字
+    window->DrawList->AddText(ImVec2(bb.Max.x, bb.Max.y - 15 - (text_size.y / 2)), ImColor(style.Colors[ImGuiCol_Text]), text.c_str());//添加文字
     ImGui::ItemAdd(bb, id);//添加item
-    ImGui::ItemSize(bb);//更新布局
+    ImGui::ItemSize(ImRect(bb.Min,ImVec2( bb.Max.x+text_size.x,bb.Max.y)));//更新布局,记得把文字的大小添加上，不然两个控件在一行会乱，别问我为什么不直接加到bb里，问就是不舒服（doge
     if (ImGui::IsItemClicked())
     {
         *b = !*b;
