@@ -75,53 +75,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 
-//////////////////////////////////定义区
-
-
-static bool show_demo_window{};
-static bool show_another_window{};
-static bool show_line{};
-static bool show_Circle{};
-static bool show_test{};
-static bool show_box{};
-static bool show_calculator{};
-
-static float line_cx = 1;
-static float Circle_cx = 2;
-static float box_cx = 1;
-static float arc_cx = 3;
-
-static float box_yj = 1;
-
-static int distance{ 13 };
-
-static float hp{ 82 };
-
-static ImVec2 bg_zr{ 444.5,19.5 };
-static ImVec2 bg_bot{ 573.1,19.5 };
-static ImVec2 line_coord1{ 576,82.3 };
-static ImVec2 line_coord2{ 640,314 };
-static ImVec2 box_coord1{ 584.7,340.1 };
-static ImVec2 box_coord2{ 702.3,547.7 };
-static ImVec2 Circle_coord{ 400,800 };
-
-
-
-
-static std::string result{};
-
-static int menutap{ 1 };
-
-static ImColor Circle_color = ImColor{ 255, 0, 0 };
-static ImVec4  clear_color = ImVec4{ 0, 0, 0, 0 };
-static ImColor line_color = ImColor{ 255, 255, 255 };
-static ImColor box_color = ImColor{ 43, 255, 0 };
-static ImGuiStyle ref_saved_style;
-static int style_idx = 0;
-//////////////////////////////////定义区结束
-
-
-
 bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height)
 {
     // Load from disk into a raw RGBA buffer
@@ -169,26 +122,6 @@ bool LoadTextureFromFile(const char* filename, ID3D11ShaderResourceView** out_sr
 }
 
 
-void layout1()
-{
-    ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
-    ImVec2 leftuppos = TheWindow->Pos;
-    ImVec2 size = ImGui::GetWindowSize();
-    TheWindow->DrawList->AddText(ImVec2(leftuppos.x+(size.x)/2.5,leftuppos.y+90),ImColor(0,255,0),"by沐辰");
-    ImGui::Text("");
-    if (ImGui::Button("退出"))
-    {
-        exit(0);
-    }
-}
-
-void layout2()
-{
-    ImGui::Checkbox("绘制圆形", &show_Circle);
-    ImGui::Checkbox("测试绘图", &show_test);
-    ImGui::Checkbox("绘制射线", &show_line);
-    ImGui::Checkbox("绘制矩形", &show_box);
-}
 
 int main()
 {
@@ -278,8 +211,8 @@ int main()
     IM_ASSERT(ret3);
     IM_ASSERT(ret4);
 
+    
     static widget test{};
-
    
     bool done = false;
     while (!done)
@@ -305,6 +238,60 @@ int main()
             CreateRenderTarget();
         }
        
+
+
+
+
+
+        //////////////////////////////////定义区
+
+
+        static bool show_demo_window{};
+        static bool show_another_window{};
+        static bool show_line{};
+        static bool show_Circle{};
+        static bool show_test{};
+        static bool show_box{};
+        static bool show_calculator{};
+
+        static float line_cx = 1;
+        static float Circle_cx = 2;
+        static float box_cx = 1;
+        static float arc_cx = 3;
+
+        static float box_yj = 1;
+
+        static int distance{ 13 };
+
+        static float hp{ 82 };
+
+        static ImVec2 bg_zr{ 444.5,19.5 };
+        static ImVec2 bg_bot{ 573.1,19.5 };
+        static ImVec2 line_coord1{ 576,82.3 };
+        static ImVec2 line_coord2{ 640,314 };
+        static ImVec2 box_coord1{ 584.7,340.1 };
+        static ImVec2 box_coord2{ 702.3,547.7 };
+        static ImVec2 Circle_coord{ 400,800 };
+
+
+
+
+        static std::string result{};
+
+        static int menutap{ 1 };
+
+        static ImColor Circle_color = ImColor{ 255, 0, 0 };
+        static ImVec4  clear_color = ImVec4{ 0, 0, 0, 0 };
+        static ImColor line_color = ImColor{ 255, 255, 255 };
+        static ImColor box_color = ImColor{ 43, 255, 0 };
+        static ImGuiStyle ref_saved_style;
+        static int style_idx = 0;
+        //////////////////////////////////定义区结束
+
+
+
+
+
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
@@ -341,13 +328,73 @@ int main()
             ImGui::PopFont();
         }
       
+        {
+            ImGuiWindowClass noAutoMerge;
+            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
+            ImGui::Begin("test");
+            ImGui::SetWindowSize({ 600, 218 }, ImGuiCond_Once);
+            ImGui::BeginChild("菜单", ImVec2(100,0),true);
+            if (test.ImageButton("主菜单", my_texture4, ImVec2(80, 50)))
+            {
+                menutap = 1;
+            }
+            if (test.ImageButton("绘制", my_texture4, ImVec2(80, 50)))
+            {
+                menutap = 2;
+            }
+            if (test.ImageButton("其他", my_texture4, ImVec2(80, 50)))
+            {
+                menutap = 3;
+            }
 
+            ImGui::EndChild();
+            ImGui::SameLine();
+            ImGui::BeginChild("内容", ImVec2(0, 0), true);
+            switch (menutap)
+            {
+            case 1:
+                ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
+                if (ImGui::Button("退出"))
+                {
+                    exit(0);
+                }
+                {
+                    ImGuiKey start_key = (ImGuiKey)0;
+                    struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+                    for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
+                    {
+                        if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue;
+
+                        ImGui::Text("%s", ImGui::GetKeyName(key));
+                        ImGui::SameLine();
+
+                    }
+                }
+                break;
+            case 2:
+                test.checkbox("绘制圆形", &show_Circle);
+                test.checkbox("测试绘图", &show_test);
+                test.checkbox("绘制射线", &show_line);
+                test.checkbox("绘制矩形", &show_box);
+                break;
+            case 3:
+                test.ImageButton("仿王者button", my_texture4, ImVec2(445 / 2, 107 / 2));
+                test.checkbox("hello", &show_calculator);
+                break;
+            }
+
+            ImGui::EndChild();
+
+           
+            ImGui::End();
+        }
         
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
-            ImGui::Begin("竖布局");
+            ImGui::Begin("横布局");
             if (test.ImageButton("主菜单", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 1;
@@ -365,10 +412,29 @@ int main()
             switch (menutap)
             {
             case 1 :
-                layout1();
+                ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
+                if (ImGui::Button("退出"))
+                {
+                    exit(0);
+                }
+                {
+                    ImGuiKey start_key = (ImGuiKey)0;
+                    struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+                    for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
+                    {
+                        if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue;
+
+                        ImGui::Text("%s", ImGui::GetKeyName(key));
+                        ImGui::SameLine();
+
+                    }
+                }
                 break;
             case 2:
-                layout2();
+                test.checkbox("绘制圆形", &show_Circle);
+                test.checkbox("测试绘图", &show_test);
+                test.checkbox("绘制射线", &show_line);
+                test.checkbox("绘制矩形", &show_box);
                 break;
             case 3:
                 test.ImageButton("仿王者button", my_texture4, ImVec2(445/2, 107/2));
@@ -383,7 +449,7 @@ int main()
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
-            ImGui::Begin("test");
+            ImGui::Begin("背景图片");
             ImGui::SetWindowSize(ImVec2(jcly_image_width, jcly_image_height), ImGuiCond_Once);
             ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
             ImVec2 leftuppos = TheWindow->Pos;
