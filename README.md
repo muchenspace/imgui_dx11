@@ -14,7 +14,7 @@
 <br>
 <span>1:在项目根目录打开cmd</span>
 <br>
-<span>2:执行cmake命令</span>
+<span>2:执行cmake .命令</span>
 <br>
 <span>3:如果上一步无误，你会看到一个sln文件，使用vs打开即可</span>
 <br>
