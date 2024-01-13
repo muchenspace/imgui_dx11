@@ -10,8 +10,12 @@
 注：
 请确保cmake版本>=3.25，并且编译器支持c++20
 <h1>如何构建</h1>
-<string>请确保当前环境可使用cmake</string>
+<strong>请确保当前环境可使用cmake</strong>
+<br>
 <span>1:在项目根目录打开cmd</span>
+<br>
 <span>2:执行cmake命令</span>
+<br>
 <span>3:如果上一步无误，你会看到一个sln文件，使用vs打开即可</span>
-<string>请确保已经安装vs2022</string>
+<br>
+<strong>请确保已经安装vs2022</strong>
