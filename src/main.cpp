@@ -14,7 +14,7 @@
 
 import tools;
 import widget;
-
+import file;
 /*
                           _ooOoo_
                          o8888888o
@@ -184,12 +184,14 @@ int main()
     Font_cfg.FontDataOwnedByAtlas = false;
 
 
-    ImFont* Font = io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 20.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
+    io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 20.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
     ImFont* Font_Big = io.Fonts->AddFontFromMemoryTTF((void*)Font_data, Font_size, 60.0f, &Font_cfg, io.Fonts->GetGlyphRangesChineseFull());
+    
 
 
 
-    //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc", 18.0f, nullptr,io.Fonts->GetGlyphRangesChineseFull());
+
+    //io.Fonts->AddFontFromFileTTF("C:/Users/admin/Downloads/1.ttf", 22.0f, nullptr,io.Fonts->GetGlyphRangesChineseFull());
     style.FrameRounding = 12;
     ImGui::StyleColorsLight();
     style.Colors[ImGuiCol_Header] = RGBAtoIV4(36, 54, 74, 79);
@@ -212,7 +214,7 @@ int main()
     IM_ASSERT(ret4);
 
     
-    static widget test{};
+    
    
     bool done = false;
     while (!done)
@@ -244,7 +246,9 @@ int main()
 
 
         //////////////////////////////////定义区
-
+        static widget test{};
+        static File filetest{"1.txt"};
+        static char buffer [999] = "";
 
         static bool show_demo_window{};
         static bool show_another_window{};
@@ -321,18 +325,31 @@ int main()
             ImGui::GetBackgroundDrawList()->AddImage(my_texture, bg_bot, ImVec2(bg_bot.x + 128, bg_bot.y + 64));
             ImGui::GetBackgroundDrawList()->AddImage(my_texture2, bg_zr, ImVec2(bg_zr.x + 128, bg_zr.y + 64));
             ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 645.2,42.3 }, ImColor(0, 255, 0), "26");
-            ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 522.4,40.8 }, ImColor(0, 255, 0), "25");
+            ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 522.4,40.8 }, ImColor(555556666767660, 255, 0), "25");
             ImGui::GetBackgroundDrawList()->AddText(ImVec2(590.5, 320), ImColor(0, 255, 0), "[Ai]");
             ImGui::PushFont(Font_Big);
             ImGui::GetBackgroundDrawList()->AddText(ImVec2{ 578,205 }, ImColor(0, 255, 0), std::string(std::to_string(distance) + std::string(" m ")).c_str());
             ImGui::PopFont();
         }
-      
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
-            ImGui::Begin("test");
+            ImGui::Begin("文件");
+            ImGui::SetWindowSize({ 600, 800 }, ImGuiCond_Once);
+            ImGui::InputText("要增加的内容",buffer,sizeof(buffer));
+            if (ImGui::Button("增加"))
+            {
+                filetest.AppendToFile(buffer);
+            }
+            test.TextView("test", filetest.ReadFile());
+            ImGui::End();
+        }
+        {
+            ImGuiWindowClass noAutoMerge;
+            noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+            ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
+            ImGui::Begin("竖布局",NULL,ImGuiWindowFlags_NoResize);
             ImGui::SetWindowSize({ 600, 218 }, ImGuiCond_Once);
             ImGui::BeginChild("菜单", ImVec2(100,0),true);
             if (test.ImageButton("主菜单", my_texture4, ImVec2(80, 50)))
@@ -373,14 +390,14 @@ int main()
                 }
                 break;
             case 2:
-                test.checkbox("绘制圆形", &show_Circle);
-                test.checkbox("测试绘图", &show_test);
-                test.checkbox("绘制射线", &show_line);
-                test.checkbox("绘制矩形", &show_box);
+                test.CheckBox("绘制圆形", &show_Circle);
+                test.CheckBox("测试绘图", &show_test);
+                test.CheckBox("绘制射线", &show_line);
+                test.CheckBox("绘制矩形", &show_box);
                 break;
             case 3:
                 test.ImageButton("仿王者button", my_texture4, ImVec2(445 / 2, 107 / 2));
-                test.checkbox("hello", &show_calculator);
+                test.CheckBox("hello", &show_calculator);
                 break;
             }
 
@@ -431,19 +448,20 @@ int main()
                 }
                 break;
             case 2:
-                test.checkbox("绘制圆形", &show_Circle);
-                test.checkbox("测试绘图", &show_test);
-                test.checkbox("绘制射线", &show_line);
-                test.checkbox("绘制矩形", &show_box);
+                test.CheckBox("绘制圆形", &show_Circle);
+                test.CheckBox("测试绘图", &show_test);
+                test.CheckBox("绘制射线", &show_line);
+                test.CheckBox("绘制矩形", &show_box);
                 break;
             case 3:
                 test.ImageButton("仿王者button", my_texture4, ImVec2(445/2, 107/2));
-                test.checkbox("hello",&show_calculator);
+                test.CheckBox("hello",&show_calculator);
                 break;
             }
             ImGui::End();
         }
        
+        
        
         {
             ImGuiWindowClass noAutoMerge;
@@ -471,12 +489,19 @@ int main()
             ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
             if (ImGui::CollapsingHeader("功能"))
             {
+                ImGui::Bullet();
                 ImGui::Checkbox("简易计算器", &show_another_window);
+                ImGui::Bullet();
                 ImGui::Checkbox("计算器2.0",&show_calculator);
+                ImGui::Bullet();
                 ImGui::Checkbox("展示demo", &show_demo_window);
+                ImGui::Bullet();
                 ImGui::Checkbox("绘制圆形", &show_Circle);
+                ImGui::Bullet();
                 ImGui::Checkbox("测试绘图", &show_test);
+                ImGui::Bullet();
                 ImGui::Checkbox("绘制射线", &show_line);
+                ImGui::Bullet();
                 ImGui::Checkbox("绘制矩形", &show_box);
             }
             if (ImGui::CollapsingHeader("设置"))

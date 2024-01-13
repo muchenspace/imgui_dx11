@@ -358,6 +358,9 @@ void ImGui::ShowDemoWindow(bool* p_open)
     ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
 
     // Main body of the Demo window starts here.
+    ImGuiWindowClass noAutoMerge;
+    noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
+    ImGui::SetNextWindowClass(&noAutoMerge);//×Ô¶¯ÍÑÀë
     if (!ImGui::Begin("Dear ImGui Demo", p_open, window_flags))
     {
         

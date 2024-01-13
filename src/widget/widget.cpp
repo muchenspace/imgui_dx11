@@ -52,7 +52,7 @@ bool widget::ImageButton(std::string text, ImTextureID texture, ImVec2 size)
     return false;
 }
 
-void widget::checkbox(std::string text, bool* b)
+void widget::CheckBox(std::string text, bool* b)
 {
     ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems)
@@ -76,4 +76,15 @@ void widget::checkbox(std::string text, bool* b)
     {
         *b = !*b;
     }//如果被点击，就反转*b
+}
+
+void widget::TextView(std::string lable,std::string text, int width)
+{
+    ImGui::TextWrapped(lable.c_str());
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+    ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + width);
+    ImGui::Text(text.c_str(), width);
+    draw_list->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 0, 255));
+    ImGui::PopTextWrapPos();
 }
