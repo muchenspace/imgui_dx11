@@ -9,7 +9,7 @@ export module file;
 export class File
 {
 private:
-    std::string filename;  // ÎÄ¼şÃû
+    std::string filename;
 
 public:
     File(std::string filename);
