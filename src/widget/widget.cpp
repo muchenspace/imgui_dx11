@@ -1,4 +1,6 @@
 ﻿#include "public.h"
+#include <vector>
+#include <sstream>
 import widget;
 
 widget::widget() : style(GImGui->Style) 
@@ -88,4 +90,30 @@ void widget::TextView(std::string lable,std::string text, int width)
     ImGui::Text(text.c_str(), width);
     draw_list->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 0, 255));
     ImGui::PopTextWrapPos();
+}
+
+int widget::StringList(const std::vector<std::string>& infos)
+{
+    ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return 0;//判断是否需要绘制
+
+    for (auto& info : infos)
+    {
+        int pid{};
+        const ImVec2 TextSize = ImGui::CalcTextSize(info.c_str(), NULL, true);//text的大小
+        const ImGuiID id = window->GetID(info.c_str());//用text生成一个id
+        const ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + TextSize.x, window->DC.CursorPos.y + TextSize.y));//item的位置
+        window->DrawList->AddText(window->DC.CursorPos, ImColor(style.Colors[ImGuiCol_Text]), info.c_str());
+        ImGui::ItemAdd(bb, id);//添加item
+        ImGui::ItemSize(ImRect(bb));//更新布局
+        if (ImGui::IsItemClicked())
+        {
+            std::istringstream iss(info);
+            iss >> pid;
+            window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//添加一个背景
+            return pid;
+        }
+    }
+    return 0;
 }

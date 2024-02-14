@@ -8,8 +8,7 @@
 #pragma execution_character_set("utf-8")
 
 
-
-
+int pid{};
 
 
 import tools;
@@ -335,7 +334,7 @@ int main()
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);//自动脱离
-            ImGui::Begin("文件");
+            ImGui::Begin("测试");
             ImGui::SetWindowSize({ 600, 800 }, ImGuiCond_Once);
             ImGui::InputText("要增加的内容",buffer,sizeof(buffer));
             if (ImGui::Button("增加"))
@@ -343,6 +342,10 @@ int main()
                 filetest.AppendToFile(buffer);
             }
             test.TextView("test", filetest.ReadFile());
+            static std::vector<std::string> StringTest{"123 hkjdshc","124 duhgcjghds"};
+            if(pid == 0)
+            pid = test.StringList(StringTest);
+            ImGui::Text("%d",pid);
             ImGui::End();
         }
         {
@@ -374,7 +377,7 @@ int main()
                 ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
                 if (ImGui::Button("退出"))
                 {
-                    exit(0);
+                    done = true;
                 }
                 {
                     ImGuiKey start_key = (ImGuiKey)0;
@@ -432,7 +435,7 @@ int main()
                 ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
                 if (ImGui::Button("退出"))
                 {
-                    exit(0);
+                    done = true;
                 }
                 {
                     ImGuiKey start_key = (ImGuiKey)0;
@@ -596,7 +599,7 @@ int main()
             ImGui::Text("fps ： (%.3f FPS)", io.Framerate);
             if (ImGui::Button("退出"))
             {
-                exit(0);
+                done = true;
             }
             {
                 ImGuiKey start_key = (ImGuiKey)0;
