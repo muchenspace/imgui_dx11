@@ -108,5 +108,4 @@ double evaluate(std::string tokens)
     }
     return values.top();
 }
-//算法来自百度
 

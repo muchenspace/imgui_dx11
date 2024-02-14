@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{93980-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;ixx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="src\file">
+      <UniqueIdentifier>{b552e57f-66ee-4118-b349-98526a23897b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\imgui">
+      <UniqueIdentifier>{ce512b04-1c69-4fea-8c73-66705f65a0b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\tools">
+      <UniqueIdentifier>{e861a6dc-c66e-43c4-88b2-94f82cec4803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\widget">
+      <UniqueIdentifier>{85d0567f-22cd-4fbe-8202-915b510c2f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\file">
+      <UniqueIdentifier>{c70cfc9f-bbbd-4815-a91f-8c14937b20cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\tools">
+      <UniqueIdentifier>{493db702-3e4c-47e2-87d1-13f3709dda60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module\widget">
+      <UniqueIdentifier>{9a83dd5a-124e-413d-bd13-ea910b9b7ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\imgui">
+      <UniqueIdentifier>{ffff0401-2361-4d48-832f-c3b3e4b31099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\stb_image">
+      <UniqueIdentifier>{b7ac7f08-3b46-46c4-8160-c0f992a5b5f6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\widget\widget.cpp">
+      <Filter>src\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tools\tools.cpp">
+      <Filter>src\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_demo.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_draw.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_impl_dx11.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_impl_win32.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_tables.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imgui\imgui_widgets.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file\file.cpp">
+      <Filter>src\file</Filter>
+    </ClCompile>
+    <ClCompile Include="module\tools\tools.ixx">
+      <Filter>module\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="module\file\file.ixx">
+      <Filter>module\file</Filter>
+    </ClCompile>
+    <ClCompile Include="module\widget\widget.ixx">
+      <Filter>module\widget</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\imgui\imconfig.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imgui.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imgui_impl_dx11.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imgui_impl_win32.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imgui_internal.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imstb_rectpack.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imstb_textedit.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imgui\imstb_truetype.h">
+      <Filter>include\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image\stb_image.h">
+      <Filter>include\stb_image</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

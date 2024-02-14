@@ -1,4 +1,4 @@
-#include "public.h"
+ï»¿#include "public.h"
 import widget;
 
 widget::widget() : style(GImGui->Style) 
@@ -15,9 +15,9 @@ bool widget::ImageButton(std::string text, ImTextureID texture, ImVec2 size)
 
     ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems)
-        return false;//ÅĞ¶ÏÊÇ·ñĞèÒª»æÖÆ
-    const ImGuiID id = window->GetID(text.c_str());//ÓÃtextÉú³ÉÒ»¸öid
-    const ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//textµÄ´óĞ¡
+        return false;//åˆ¤æ–­æ˜¯å¦éœ€è¦ç»˜åˆ¶
+    const ImGuiID id = window->GetID(text.c_str());//ç”¨textç”Ÿæˆä¸€ä¸ªid
+    const ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//textçš„å¤§å°
     ImRect bb{};
 
     if (size.x == 0 || size.y == 0)
@@ -34,19 +34,19 @@ bool widget::ImageButton(std::string text, ImTextureID texture, ImVec2 size)
     }
     
 
-    ImGui::ItemAdd(bb, id);//Ìí¼Óitem
-    ImGui::ItemSize(bb);//¸üĞÂ²¼¾Ö
+    ImGui::ItemAdd(bb, id);//æ·»åŠ item
+    ImGui::ItemSize(bb);//æ›´æ–°å¸ƒå±€
 
     if (ImGui::IsItemActive())
     {
-        //window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//Ìí¼ÓÒ»¸ö±³¾°
-    }// ±»°´ÏÂ²¢ÇÒÃ»ÓĞµ¯³ö
+        //window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//æ·»åŠ ä¸€ä¸ªèƒŒæ™¯
+    }// è¢«æŒ‰ä¸‹å¹¶ä¸”æ²¡æœ‰å¼¹å‡º
 
     
 
     if (ImGui::IsItemClicked())
     {
-        window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//Ìí¼ÓÒ»¸ö±³¾°
+        window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//æ·»åŠ ä¸€ä¸ªèƒŒæ™¯
         return true;
     }
     return false;
@@ -56,27 +56,28 @@ void widget::CheckBox(std::string text, bool* b)
 {
     ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems)
-        return;//ÅĞ¶ÏÊÇ·ñĞèÒª»æÖÆ
+        return;//åˆ¤æ–­æ˜¯å¦éœ€è¦ç»˜åˆ¶
 
 
 
-    const ImGuiID id = window->GetID(text.c_str());//ÓÃtextÉú³ÉÒ»¸öid
-    const ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//textµÄ´óĞ¡
-    const ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 30, window->DC.CursorPos.y + 30));//¿Ø¼şµÄÎ»ÖÃ
+    const ImGuiID id = window->GetID(text.c_str());//ç”¨textç”Ÿæˆä¸€ä¸ªid
+    const ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), NULL, true);//textçš„å¤§å°
+    const ImRect bb(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + 30, window->DC.CursorPos.y + 30));//æ§ä»¶çš„ä½ç½®
 
-    window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(style.Colors[ImGuiCol_FrameBg]));//Ìí¼ÓÒ»¸ö±³¾°
+    window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(style.Colors[ImGuiCol_FrameBg]));//æ·»åŠ ä¸€ä¸ªèƒŒæ™¯
     if (*b)
     {
         window->DrawList->AddRectFilled(ImVec2( bb.Min.x + 5,bb.Min.y + 5 ),ImVec2( bb.Max.x -5,bb.Max.y -5 ), ImColor(style.Colors[ImGuiCol_CheckMark]));
-    }//Èç¹û*bÎªÕæ£¬Ìí¼ÓÒ»¸öÄÚÇ¶¾ØĞÎ
-    window->DrawList->AddText(ImVec2(bb.Max.x, bb.Max.y - 15 - (text_size.y / 2)), ImColor(style.Colors[ImGuiCol_Text]), text.c_str());//Ìí¼ÓÎÄ×Ö
-    ImGui::ItemAdd(bb, id);//Ìí¼Óitem
-    ImGui::ItemSize(ImRect(bb.Min,ImVec2( bb.Max.x+text_size.x,bb.Max.y)));//¸üĞÂ²¼¾Ö,¼ÇµÃ°ÑÎÄ×ÖµÄ´óĞ¡Ìí¼ÓÉÏ£¬²»È»Á½¸ö¿Ø¼şÔÚÒ»ĞĞ»áÂÒ£¬±ğÎÊÎÒÎªÊ²Ã´²»Ö±½Ó¼Óµ½bbÀï£¬ÎÊ¾ÍÊÇ²»Êæ·ş£¨doge
+    }//å¦‚æœ*bä¸ºçœŸï¼Œæ·»åŠ ä¸€ä¸ªå†…åµŒçŸ©å½¢
+    window->DrawList->AddText(ImVec2(bb.Max.x, bb.Max.y - 15 - (text_size.y / 2)), ImColor(style.Colors[ImGuiCol_Text]), text.c_str());//æ·»åŠ æ–‡å­—
+    ImGui::ItemAdd(bb, id);//æ·»åŠ item
+    ImGui::ItemSize(ImRect(bb.Min,ImVec2( bb.Max.x+text_size.x,bb.Max.y)));//æ›´æ–°å¸ƒå±€,è®°å¾—æŠŠæ–‡å­—çš„å¤§å°æ·»åŠ ä¸Šï¼Œä¸ç„¶ä¸¤ä¸ªæ§ä»¶åœ¨ä¸€è¡Œä¼šä¹±ï¼Œåˆ«é—®æˆ‘ä¸ºä»€ä¹ˆä¸ç›´æ¥åŠ åˆ°bbé‡Œï¼Œé—®å°±æ˜¯ä¸èˆ’æœï¼ˆdoge
     if (ImGui::IsItemClicked())
     {
         *b = !*b;
-    }//Èç¹û±»µã»÷£¬¾Í·´×ª*b
+    }//å¦‚æœè¢«ç‚¹å‡»ï¼Œå°±åè½¬*b
 }
+
 
 void widget::TextView(std::string lable,std::string text, int width)
 {

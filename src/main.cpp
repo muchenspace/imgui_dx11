@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "public.h"
 #include "Font.h"
 #define STB_IMAGE_IMPLEMENTATION
@@ -35,31 +35,31 @@ import file;
        ======`-.____`-.___\_____/___.-`____.-'======
                           `=---='
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                ·ğ×æ±£ÓÓ                  ÓÀÎŞBUG
-                ·ğ×æÕòÂ¥                  BUG±ÙÒ×
-           ·ğÔ»:
-                   Ğ´×ÖÂ¥ÀïĞ´×Ö¼ä£¬Ğ´×Ö¼äÀï³ÌĞòÔ±£»
-                   ³ÌĞòÈËÔ±Ğ´³ÌĞò£¬ÓÖÄÃ³ÌĞò»»¾ÆÇ®¡£
-                   ¾ÆĞÑÖ»ÔÚÍøÉÏ×ø£¬¾Æ×í»¹À´ÍøÏÂÃß£»
-                   ¾Æ×í¾ÆĞÑÈÕ¸´ÈÕ£¬ÍøÉÏÍøÏÂÄê¸´Äê¡£
-                   µ«Ô¸ÀÏËÀµçÄÔ¼ä£¬²»Ô¸¾Ï¹ªÀÏ°åÇ°£»
-                   ±¼³Û±¦Âí¹óÕßÈ¤£¬¹«½»×ÔĞĞ³ÌĞòÔ±¡£
-                   ±ğÈËĞ¦ÎÒß¯·èñ²£¬ÎÒĞ¦×Ô¼ºÃüÌ«¼ú£»
-                   ²»¼ûÂú½ÖÆ¯ÁÁÃÃ£¬ÄÄ¸ö¹éµÃ³ÌĞòÔ±£¿
+                ä½›ç¥–ä¿ä½‘                  æ°¸æ— BUG
+                ä½›ç¥–é•‡æ¥¼                  BUGè¾Ÿæ˜“
+           ä½›æ›°:
+                   å†™å­—æ¥¼é‡Œå†™å­—é—´ï¼Œå†™å­—é—´é‡Œç¨‹åºå‘˜ï¼›
+                   ç¨‹åºäººå‘˜å†™ç¨‹åºï¼Œåˆæ‹¿ç¨‹åºæ¢é…’é’±ã€‚
+                   é…’é†’åªåœ¨ç½‘ä¸Šåï¼Œé…’é†‰è¿˜æ¥ç½‘ä¸‹çœ ï¼›
+                   é…’é†‰é…’é†’æ—¥å¤æ—¥ï¼Œç½‘ä¸Šç½‘ä¸‹å¹´å¤å¹´ã€‚
+                   ä½†æ„¿è€æ­»ç”µè„‘é—´ï¼Œä¸æ„¿é èº¬è€æ¿å‰ï¼›
+                   å¥”é©°å®é©¬è´µè€…è¶£ï¼Œå…¬äº¤è‡ªè¡Œç¨‹åºå‘˜ã€‚
+                   åˆ«äººç¬‘æˆ‘å¿’ç–¯ç™«ï¼Œæˆ‘ç¬‘è‡ªå·±å‘½å¤ªè´±ï¼›
+                   ä¸è§æ»¡è¡—æ¼‚äº®å¦¹ï¼Œå“ªä¸ªå½’å¾—ç¨‹åºå‘˜ï¼Ÿ
  */
 
 
-//ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//ÎªäÖÈ¾´°¿ÚÉèÖÃÍ¸Ã÷
+//ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//ä¸ºæ¸²æŸ“çª—å£è®¾ç½®é€æ˜
 //
 //LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
 //exStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
-//SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//Êó±ê´©Í¸£¬¼ÇµÃ´´½¨ĞÂ´°¿ÚµÄÊ±ºòÈÃ´°¿ÚÍÑÀë£¬²»È»»áÒ»ÆğÃ»´¥Ãş
+//SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//é¼ æ ‡ç©¿é€ï¼Œè®°å¾—åˆ›å»ºæ–°çª—å£çš„æ—¶å€™è®©çª—å£è„±ç¦»ï¼Œä¸ç„¶ä¼šä¸€èµ·æ²¡è§¦æ‘¸
 
-//SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);//ÉèÖÃÓÅÏÈ¼¶±ğ×î¸ß
+//SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);//è®¾ç½®ä¼˜å…ˆçº§åˆ«æœ€é«˜
 
 //ImGuiWindowClass noAutoMerge;
 //noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-//ImGui::SetNextWindowClass(&noAutoMerge);//×Ô¶¯ÍÑÀëäÖÈ¾´°¿Ú
+//ImGui::SetNextWindowClass(&noAutoMerge);//è‡ªåŠ¨è„±ç¦»æ¸²æŸ“çª—å£
 
 static ID3D11Device* g_pd3dDevice = nullptr;
 static ID3D11DeviceContext* g_pd3dDeviceContext = nullptr;
@@ -133,7 +133,7 @@ int main()
 
 
 
-     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui",WS_POPUP, 0, 0, 2560, 1440, nullptr, nullptr, wc.hInstance, nullptr);//Òş²Ø±êÌâ
+     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui",WS_POPUP, 0, 0, 2560, 1440, nullptr, nullptr, wc.hInstance, nullptr);//éšè—æ ‡é¢˜
     //HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"imgui", WS_OVERLAPPEDWINDOW, 100,100, 800, 600, nullptr, nullptr, wc.hInstance, nullptr);
 
 
@@ -152,11 +152,11 @@ int main()
 
 
 
-    ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//´°¿ÚÍ¸Ã÷
+    ImGui_ImplWin32_EnableAlphaCompositing(hwnd);//çª—å£é€æ˜
 
     LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
     exStyle |= WS_EX_TRANSPARENT | WS_EX_LAYERED;
-    SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//Êó±ê´©Í¸
+    SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);//é¼ æ ‡ç©¿é€
 
 
     IMGUI_CHECKVERSION();
@@ -196,10 +196,10 @@ int main()
     ImGui::StyleColorsLight();
     style.Colors[ImGuiCol_Header] = RGBAtoIV4(36, 54, 74, 79);
 
-    int my_image_width1;//Í¼³¤
-    int my_image_height1;//Í¼¿í
-    int jcly_image_width;//Í¼³¤
-    int jcly_image_height;//Í¼¿í
+    int my_image_width1;//å›¾é•¿
+    int my_image_height1;//å›¾å®½
+    int jcly_image_width;//å›¾é•¿
+    int jcly_image_height;//å›¾å®½
     ID3D11ShaderResourceView* my_texture = NULL;
     ID3D11ShaderResourceView* my_texture2 = NULL;
     ID3D11ShaderResourceView* my_texture3 = NULL;
@@ -245,7 +245,7 @@ int main()
 
 
 
-        //////////////////////////////////¶¨ÒåÇø
+        //////////////////////////////////å®šä¹‰åŒº
         static widget test{};
         static File filetest{"1.txt"};
         static char buffer [999] = "";
@@ -290,7 +290,7 @@ int main()
         static ImColor box_color = ImColor{ 43, 255, 0 };
         static ImGuiStyle ref_saved_style;
         static int style_idx = 0;
-        //////////////////////////////////¶¨ÒåÇø½áÊø
+        //////////////////////////////////å®šä¹‰åŒºç»“æŸ
 
 
 
@@ -299,7 +299,7 @@ int main()
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
-        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);//ÉèÖÃÓÅÏÈ¼¶±ğ×î¸ß
+        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);//è®¾ç½®ä¼˜å…ˆçº§åˆ«æœ€é«˜
         if (show_Circle)
         {
             ImGui::GetForegroundDrawList()->AddCircle(Circle_coord, 100, Circle_color, 0, Circle_cx);
@@ -334,11 +334,11 @@ int main()
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-            ImGui::SetNextWindowClass(&noAutoMerge);//×Ô¶¯ÍÑÀë
-            ImGui::Begin("ÎÄ¼ş");
+            ImGui::SetNextWindowClass(&noAutoMerge);//è‡ªåŠ¨è„±ç¦»
+            ImGui::Begin("æ–‡ä»¶");
             ImGui::SetWindowSize({ 600, 800 }, ImGuiCond_Once);
-            ImGui::InputText("ÒªÔö¼ÓµÄÄÚÈİ",buffer,sizeof(buffer));
-            if (ImGui::Button("Ôö¼Ó"))
+            ImGui::InputText("è¦å¢åŠ çš„å†…å®¹",buffer,sizeof(buffer));
+            if (ImGui::Button("å¢åŠ "))
             {
                 filetest.AppendToFile(buffer);
             }
@@ -348,31 +348,31 @@ int main()
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-            ImGui::SetNextWindowClass(&noAutoMerge);//×Ô¶¯ÍÑÀë
-            ImGui::Begin("Êú²¼¾Ö",NULL,ImGuiWindowFlags_NoResize);
+            ImGui::SetNextWindowClass(&noAutoMerge);//è‡ªåŠ¨è„±ç¦»
+            ImGui::Begin("ç«–å¸ƒå±€",NULL,ImGuiWindowFlags_NoResize);
             ImGui::SetWindowSize({ 600, 218 }, ImGuiCond_Once);
-            ImGui::BeginChild("²Ëµ¥", ImVec2(100,0),true);
-            if (test.ImageButton("Ö÷²Ëµ¥", my_texture4, ImVec2(80, 50)))
+            ImGui::BeginChild("èœå•", ImVec2(100,0),true);
+            if (test.ImageButton("ä¸»èœå•", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 1;
             }
-            if (test.ImageButton("»æÖÆ", my_texture4, ImVec2(80, 50)))
+            if (test.ImageButton("ç»˜åˆ¶", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 2;
             }
-            if (test.ImageButton("ÆäËû", my_texture4, ImVec2(80, 50)))
+            if (test.ImageButton("å…¶ä»–", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 3;
             }
 
             ImGui::EndChild();
             ImGui::SameLine();
-            ImGui::BeginChild("ÄÚÈİ", ImVec2(0, 0), true);
+            ImGui::BeginChild("å†…å®¹", ImVec2(0, 0), true);
             switch (menutap)
             {
             case 1:
-                ImGui::Text("fps £º (%.3f FPS)", io.Framerate);
-                if (ImGui::Button("ÍË³ö"))
+                ImGui::Text("fps ï¼š (%.3f FPS)", io.Framerate);
+                if (ImGui::Button("é€€å‡º"))
                 {
                     exit(0);
                 }
@@ -390,13 +390,13 @@ int main()
                 }
                 break;
             case 2:
-                test.CheckBox("»æÖÆÔ²ĞÎ", &show_Circle);
-                test.CheckBox("²âÊÔ»æÍ¼", &show_test);
-                test.CheckBox("»æÖÆÉäÏß", &show_line);
-                test.CheckBox("»æÖÆ¾ØĞÎ", &show_box);
+                test.CheckBox("ç»˜åˆ¶åœ†å½¢", &show_Circle);
+                test.CheckBox("æµ‹è¯•ç»˜å›¾", &show_test);
+                test.CheckBox("ç»˜åˆ¶å°„çº¿", &show_line);
+                test.CheckBox("ç»˜åˆ¶çŸ©å½¢", &show_box);
                 break;
             case 3:
-                test.ImageButton("·ÂÍõÕßbutton", my_texture4, ImVec2(445 / 2, 107 / 2));
+                test.ImageButton("ä»¿ç‹è€…button", my_texture4, ImVec2(445 / 2, 107 / 2));
                 test.CheckBox("hello", &show_calculator);
                 break;
             }
@@ -410,27 +410,27 @@ int main()
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-            ImGui::SetNextWindowClass(&noAutoMerge);//×Ô¶¯ÍÑÀë
-            ImGui::Begin("ºá²¼¾Ö");
-            if (test.ImageButton("Ö÷²Ëµ¥", my_texture4, ImVec2(80, 50)))
+            ImGui::SetNextWindowClass(&noAutoMerge);//è‡ªåŠ¨è„±ç¦»
+            ImGui::Begin("æ¨ªå¸ƒå±€");
+            if (test.ImageButton("ä¸»èœå•", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 1;
             }
             ImGui::SameLine();
-            if (test.ImageButton("»æÖÆ", my_texture4, ImVec2(80, 50)))
+            if (test.ImageButton("ç»˜åˆ¶", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 2;
             }
             ImGui::SameLine();
-            if (test.ImageButton("ÆäËû", my_texture4, ImVec2(80, 50)))
+            if (test.ImageButton("å…¶ä»–", my_texture4, ImVec2(80, 50)))
             {
                 menutap = 3;
             }
             switch (menutap)
             {
             case 1 :
-                ImGui::Text("fps £º (%.3f FPS)", io.Framerate);
-                if (ImGui::Button("ÍË³ö"))
+                ImGui::Text("fps ï¼š (%.3f FPS)", io.Framerate);
+                if (ImGui::Button("é€€å‡º"))
                 {
                     exit(0);
                 }
@@ -448,13 +448,13 @@ int main()
                 }
                 break;
             case 2:
-                test.CheckBox("»æÖÆÔ²ĞÎ", &show_Circle);
-                test.CheckBox("²âÊÔ»æÍ¼", &show_test);
-                test.CheckBox("»æÖÆÉäÏß", &show_line);
-                test.CheckBox("»æÖÆ¾ØĞÎ", &show_box);
+                test.CheckBox("ç»˜åˆ¶åœ†å½¢", &show_Circle);
+                test.CheckBox("æµ‹è¯•ç»˜å›¾", &show_test);
+                test.CheckBox("ç»˜åˆ¶å°„çº¿", &show_line);
+                test.CheckBox("ç»˜åˆ¶çŸ©å½¢", &show_box);
                 break;
             case 3:
-                test.ImageButton("·ÂÍõÕßbutton", my_texture4, ImVec2(445/2, 107/2));
+                test.ImageButton("ä»¿ç‹è€…button", my_texture4, ImVec2(445/2, 107/2));
                 test.CheckBox("hello",&show_calculator);
                 break;
             }
@@ -466,8 +466,8 @@ int main()
         {
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
-            ImGui::SetNextWindowClass(&noAutoMerge);//×Ô¶¯ÍÑÀë
-            ImGui::Begin("±³¾°Í¼Æ¬");
+            ImGui::SetNextWindowClass(&noAutoMerge);//è‡ªåŠ¨è„±ç¦»
+            ImGui::Begin("èƒŒæ™¯å›¾ç‰‡");
             ImGui::SetWindowSize(ImVec2(jcly_image_width, jcly_image_height), ImGuiCond_Once);
             ImGuiWindow* TheWindow = ImGui::GetCurrentWindow();
             ImVec2 leftuppos = TheWindow->Pos;
@@ -487,78 +487,78 @@ int main()
 
             ImGui::Begin("by,,muchen");
             ImGui::SetWindowSize({ 200, 600 }, ImGuiCond_Once);
-            if (ImGui::CollapsingHeader("¹¦ÄÜ"))
+            if (ImGui::CollapsingHeader("åŠŸèƒ½"))
             {
                 ImGui::Bullet();
-                ImGui::Checkbox("¼òÒ×¼ÆËãÆ÷", &show_another_window);
+                ImGui::Checkbox("ç®€æ˜“è®¡ç®—å™¨", &show_another_window);
                 ImGui::Bullet();
-                ImGui::Checkbox("¼ÆËãÆ÷2.0",&show_calculator);
+                ImGui::Checkbox("è®¡ç®—å™¨2.0",&show_calculator);
                 ImGui::Bullet();
-                ImGui::Checkbox("Õ¹Ê¾demo", &show_demo_window);
+                ImGui::Checkbox("å±•ç¤ºdemo", &show_demo_window);
                 ImGui::Bullet();
-                ImGui::Checkbox("»æÖÆÔ²ĞÎ", &show_Circle);
+                ImGui::Checkbox("ç»˜åˆ¶åœ†å½¢", &show_Circle);
                 ImGui::Bullet();
-                ImGui::Checkbox("²âÊÔ»æÍ¼", &show_test);
+                ImGui::Checkbox("æµ‹è¯•ç»˜å›¾", &show_test);
                 ImGui::Bullet();
-                ImGui::Checkbox("»æÖÆÉäÏß", &show_line);
+                ImGui::Checkbox("ç»˜åˆ¶å°„çº¿", &show_line);
                 ImGui::Bullet();
-                ImGui::Checkbox("»æÖÆ¾ØĞÎ", &show_box);
+                ImGui::Checkbox("ç»˜åˆ¶çŸ©å½¢", &show_box);
             }
-            if (ImGui::CollapsingHeader("ÉèÖÃ"))
+            if (ImGui::CollapsingHeader("è®¾ç½®"))
             {
-                if (ImGui::TreeNode("»æÖÆÏîÄ¿"))
+                if (ImGui::TreeNode("ç»˜åˆ¶é¡¹ç›®"))
                 {
-                    if (ImGui::TreeNode("Ô²½Ç"))
+                    if (ImGui::TreeNode("åœ†è§’"))
                     {
-                        ImGui::SliderFloat("¾ØĞÎÔ²½Ç", &box_yj, 1.0f, 100.0f);
+                        ImGui::SliderFloat("çŸ©å½¢åœ†è§’", &box_yj, 1.0f, 100.0f);
                         ImGui::TreePop();
                     }
                    
-                    if (ImGui::TreeNode("¿í¶È"))
+                    if (ImGui::TreeNode("å®½åº¦"))
                     {
-                        ImGui::SliderFloat("Ô²ĞÎ´ÖÏ¸", &Circle_cx, 1.0f, 10.0f);
-                        ImGui::SliderFloat("ÉäÏß´ÖÏ¸", &line_cx, 1.0f, 10.0f);
-                        ImGui::SliderFloat("¾ØĞÎ´ÖÏ¸", &box_cx, 1.0f, 10.0f);
-                        ImGui::SliderFloat("Ô²»¡´ÖÏ¸", &arc_cx, 1.0f, 10.0f);
+                        ImGui::SliderFloat("åœ†å½¢ç²—ç»†", &Circle_cx, 1.0f, 10.0f);
+                        ImGui::SliderFloat("å°„çº¿ç²—ç»†", &line_cx, 1.0f, 10.0f);
+                        ImGui::SliderFloat("çŸ©å½¢ç²—ç»†", &box_cx, 1.0f, 10.0f);
+                        ImGui::SliderFloat("åœ†å¼§ç²—ç»†", &arc_cx, 1.0f, 10.0f);
                         ImGui::TreePop();
                     }
-                    if (ImGui::TreeNode("»¡¶È"))
+                    if (ImGui::TreeNode("å¼§åº¦"))
                     {
-                        ImGui::SliderFloat("»¡¶È", &hp, 1.0f, 100.0f);
+                        ImGui::SliderFloat("å¼§åº¦", &hp, 1.0f, 100.0f);
                         ImGui::TreePop();
                     }
-                    if (ImGui::TreeNode("ÑÕÉ«"))
+                    if (ImGui::TreeNode("é¢œè‰²"))
                     {
-                        ImGui::ColorEdit3("ÉäÏßÑÕÉ«", (float*)&line_color);
-                        ImGui::ColorEdit3("Ô²ĞÎÑÕÉ«", (float*)&Circle_color);
-                        ImGui::ColorEdit3("¾ØĞÎÑÕÉ«", (float*)&box_color);
+                        ImGui::ColorEdit3("å°„çº¿é¢œè‰²", (float*)&line_color);
+                        ImGui::ColorEdit3("åœ†å½¢é¢œè‰²", (float*)&Circle_color);
+                        ImGui::ColorEdit3("çŸ©å½¢é¢œè‰²", (float*)&box_color);
                       
                         ImGui::TreePop();
                     }
-                    if (ImGui::TreeNode("Î»ÖÃ"))
+                    if (ImGui::TreeNode("ä½ç½®"))
                     {
                        
-                        if (ImGui::TreeNode("ÉäÏßÎ»ÖÃ"))
+                        if (ImGui::TreeNode("å°„çº¿ä½ç½®"))
                         {
-                            ImGui::SliderFloat("ÉäÏßx1", &line_coord1.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("ÉäÏßy1", &line_coord1.y, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("ÉäÏßx2", &line_coord2.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("ÉäÏßy2", &line_coord2.y, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("å°„çº¿x1", &line_coord1.x, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("å°„çº¿y1", &line_coord1.y, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("å°„çº¿x2", &line_coord2.x, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("å°„çº¿y2", &line_coord2.y, 1.0f, 1000.0f);
                             ImGui::TreePop();
                         }
                        
-                        if (ImGui::TreeNode("¾ØĞÎÎ»ÖÃ"))
+                        if (ImGui::TreeNode("çŸ©å½¢ä½ç½®"))
                         {
-                            ImGui::SliderFloat("¾ØĞÎ1x", &box_coord1.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("¾ØĞÎ1y", &box_coord1.y, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("¾ØĞÎ2x", &box_coord2.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("¾ØĞÎ2y", &box_coord2.y, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("çŸ©å½¢1x", &box_coord1.x, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("çŸ©å½¢1y", &box_coord1.y, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("çŸ©å½¢2x", &box_coord2.x, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("çŸ©å½¢2y", &box_coord2.y, 1.0f, 1000.0f);
                             ImGui::TreePop();
                         }
-                        if (ImGui::TreeNode("Ô²ĞÎÎ»ÖÃ"))
+                        if (ImGui::TreeNode("åœ†å½¢ä½ç½®"))
                         {
-                            ImGui::SliderFloat("Ô²ĞÎx1", &Circle_coord.x, 1.0f, 1000.0f);
-                            ImGui::SliderFloat("Ô²ĞÎy1", &Circle_coord.y, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("åœ†å½¢x1", &Circle_coord.x, 1.0f, 1000.0f);
+                            ImGui::SliderFloat("åœ†å½¢y1", &Circle_coord.y, 1.0f, 1000.0f);
                             ImGui::TreePop();
                         }
                        
@@ -569,9 +569,9 @@ int main()
 
 
 
-                if (ImGui::TreeNode("·ç¸ñ"))
+                if (ImGui::TreeNode("é£æ ¼"))
                 {
-                    if (ImGui::Combo("ÑÕÉ«", &style_idx, "°×É«\0À¶É«\0×ÏÉ«\0"))
+                    if (ImGui::Combo("é¢œè‰²", &style_idx, "ç™½è‰²\0è“è‰²\0ç´«è‰²\0"))
                     {
                         switch (style_idx)
                         {
@@ -587,14 +587,14 @@ int main()
                             break;
                         }
                     }
-                    ImGui::ColorEdit3("×ÖÌåÑÕÉ«", (float*)&style.Colors[0]);
+                    ImGui::ColorEdit3("å­—ä½“é¢œè‰²", (float*)&style.Colors[0]);
                  
                     ImGui::TreePop();
                 }
 
             }
-            ImGui::Text("fps £º (%.3f FPS)", io.Framerate);
-            if (ImGui::Button("ÍË³ö"))
+            ImGui::Text("fps ï¼š (%.3f FPS)", io.Framerate);
+            if (ImGui::Button("é€€å‡º"))
             {
                 exit(0);
             }
@@ -619,40 +619,40 @@ int main()
             ImGui::SetNextWindowClass(&noAutoMerge);
             static int arr[2] = { 0,0 };
             static float arr1[2] = { 0,0 };
-            ImGui::Begin("¼òÒ×¼ÆËãÆ÷");
+            ImGui::Begin("ç®€æ˜“è®¡ç®—å™¨");
             ImGui::SetWindowSize({ 600, 600 }, ImGuiCond_Once);
 
-            if (ImGui::CollapsingHeader("¼Ó·¨"))
+            if (ImGui::CollapsingHeader("åŠ æ³•"))
             {
-                ImGui::SliderInt("±»¼ÓÊı", &arr[0], 0, 10, "%d");
-                ImGui::SliderInt("¼ÓÊı", &arr[1], 0, 10, "%d");
-                ImGui::Text("½á¹û=%d", arr[0] + arr[1]);
+                ImGui::SliderInt("è¢«åŠ æ•°", &arr[0], 0, 10, "%d");
+                ImGui::SliderInt("åŠ æ•°", &arr[1], 0, 10, "%d");
+                ImGui::Text("ç»“æœ=%d", arr[0] + arr[1]);
             }
 
 
-            if (ImGui::CollapsingHeader("¼õ·¨"))
+            if (ImGui::CollapsingHeader("å‡æ³•"))
             {
-                ImGui::SliderInt("±»¼õÊı", &arr[0], 0, 10, "%d");
-                ImGui::SliderInt("¼õÊı", &arr[1], 0, 10, "%d");
-                ImGui::Text("½á¹û=%d", arr[0] - arr[1]);
+                ImGui::SliderInt("è¢«å‡æ•°", &arr[0], 0, 10, "%d");
+                ImGui::SliderInt("å‡æ•°", &arr[1], 0, 10, "%d");
+                ImGui::Text("ç»“æœ=%d", arr[0] - arr[1]);
             }
 
 
-            if (ImGui::CollapsingHeader("³Ë·¨"))
+            if (ImGui::CollapsingHeader("ä¹˜æ³•"))
             {
-                ImGui::SliderInt("³ËÊı1", &arr[0], 0, 10, "%d");
-                ImGui::SliderInt("³ËÊı2", &arr[1], 0, 10, "%d");
-                ImGui::Text("½á¹û=%d", arr[0] * arr[1]);
+                ImGui::SliderInt("ä¹˜æ•°1", &arr[0], 0, 10, "%d");
+                ImGui::SliderInt("ä¹˜æ•°2", &arr[1], 0, 10, "%d");
+                ImGui::Text("ç»“æœ=%d", arr[0] * arr[1]);
             }
 
-            if (ImGui::CollapsingHeader("³ı·¨"))
+            if (ImGui::CollapsingHeader("é™¤æ³•"))
             {
-                ImGui::SliderFloat("±»³ıÊı", &arr1[0], 0.0f, 10.0f, "%.0f");
-                ImGui::SliderFloat("³ıÊı", &arr1[1], 0.0f, 10.0f, "%.0f");
-                ImGui::Text("½á¹û=%.3f", arr1[0] / arr1[1]);
+                ImGui::SliderFloat("è¢«é™¤æ•°", &arr1[0], 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("é™¤æ•°", &arr1[1], 0.0f, 10.0f, "%.0f");
+                ImGui::Text("ç»“æœ=%.3f", arr1[0] / arr1[1]);
             }
 
-            if (ImGui::Button("¹Ø±ÕÕâ¸ö´°¿Ú"))
+            if (ImGui::Button("å…³é—­è¿™ä¸ªçª—å£"))
             {
                 show_another_window = false;
             }
@@ -664,7 +664,7 @@ int main()
             ImGuiWindowClass noAutoMerge;
             noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
             ImGui::SetNextWindowClass(&noAutoMerge);
-            ImGui::Begin("¼ÆËãÆ÷");
+            ImGui::Begin("è®¡ç®—å™¨ ");
             ImGui::Text(result.c_str());
             ImGui::Text("");
             if (ImGui::Button("C", ImVec2(50, 50)))
@@ -761,10 +761,10 @@ int main()
             if (ImGui::Button("=", ImVec2(50, 50)))
             {
                 double buff = evaluate(result);
-                if (buff == static_cast<int>(buff)) // ¼ì²é½á¹ûÊÇ·ñÎªÕûÊı
-                    result = std::to_string(static_cast<int>(buff)); // Èç¹ûÊÇÕûÊı£¬¾Í×ª»»ÎªintÀàĞÍ
+                if (buff == static_cast<int>(buff)) // æ£€æŸ¥ç»“æœæ˜¯å¦ä¸ºæ•´æ•°
+                    result = std::to_string(static_cast<int>(buff)); // å¦‚æœæ˜¯æ•´æ•°ï¼Œå°±è½¬æ¢ä¸ºintç±»å‹
                 else
-                    result = std::to_string(buff); // Èç¹û²»ÊÇÕûÊı£¬¾Í±£³ÖÎªdoubleÀàĞÍ
+                    result = std::to_string(buff); // å¦‚æœä¸æ˜¯æ•´æ•°ï¼Œå°±ä¿æŒä¸ºdoubleç±»å‹
             }
             ImGui::End();
         }
