@@ -1,6 +1,9 @@
-#include <stack>
+﻿#include <stack>
 #include "public.h"
+
 import tools;
+
+
 
 ImVec4 RGBAtoIV4(int r, int g, int b, int a)
 {
@@ -10,6 +13,8 @@ ImVec4 RGBAtoIV4(int r, int g, int b, int a)
     float newa = a / 255.0f;
     return ImVec4(newr, newg, newb, newa);
 }
+
+
 
 double priority(char op)
 {
