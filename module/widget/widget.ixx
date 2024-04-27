@@ -16,6 +16,7 @@ public:
 	void TextView(std::string lable,std::string text,int width=200);//创建一个文本视图
 	std::string StringList(const std::vector<std::string>& infos);//将传进的string列出，如果某一个string被点击就会返回这个string
 	std::string FileList(std::filesystem::path path);
+	void Speedometer(const int& speed, const ImVec2& center, const int& radius, ImColor Color = ImColor{0,255,0});
 private:
 	ImGuiStyle& style;
 };

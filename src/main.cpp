@@ -239,6 +239,7 @@ int main()
 		static char buffer[999] = "";
 
 		static bool show_demo_window{};
+		static bool show_Speedometer{};
 		static bool show_another_window{};
 		static bool show_line{};
 		static bool show_Circle{};
@@ -266,7 +267,7 @@ int main()
 		static ImVec2 Circle_coord{ 400,800 };
 
 
-
+        static int speed{};
 
 		static std::string result{};
 
@@ -288,10 +289,15 @@ int main()
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);//设置优先级别最高
+		if (show_Speedometer)
+		{
+			test.Speedometer(speed, { 800,800 }, 300);
+		}
 		if (show_Circle)
 		{
 			ImGui::GetForegroundDrawList()->AddCircle(Circle_coord, 100, Circle_color, 0, Circle_cx);
 		}
+		
 		if (show_line)
 		{
 			ImGui::GetForegroundDrawList()->AddLine(line_coord1, line_coord2, line_color, line_cx);
@@ -308,7 +314,7 @@ int main()
 		{
 			ImGui::GetForegroundDrawList()->AddRect(box_coord1, box_coord2, box_color, box_yj, NULL, box_cx);
 			ImGui::GetForegroundDrawList()->AddLine(line_coord1, line_coord2, line_color, line_cx);
-			ImGui::GetForegroundDrawList()->PathArcTo(ImVec2{ 645,239 }, 82.0, 0.0f, 82 / 15.9154f, 50);
+			ImGui::GetForegroundDrawList()->PathArcTo(ImVec2{ 645,239 }, 82, 0.0f, hp / 15.9154f, 50);
 			ImGui::GetForegroundDrawList()->PathStroke(ImColor(0, 255, 0), false, 3.0);
 			ImGui::GetBackgroundDrawList()->AddImage(my_texture, bg_bot, ImVec2(bg_bot.x + 128, bg_bot.y + 64));
 			ImGui::GetBackgroundDrawList()->AddImage(my_texture2, bg_zr, ImVec2(bg_zr.x + 128, bg_zr.y + 64));
@@ -464,7 +470,8 @@ int main()
 			ImGui::Button("1");
 			ImGui::End();
 		}
-
+		
+		
 		{
 			ImGuiWindowClass noAutoMerge;
 			noAutoMerge.ViewportFlagsOverrideSet = ImGuiViewportFlags_NoAutoMerge;
@@ -475,6 +482,8 @@ int main()
 			{
 				ImGui::Bullet();
 				ImGui::Checkbox("简易计算器", &show_another_window);
+				ImGui::Bullet();
+				ImGui::Checkbox("简易仪表盘", &show_Speedometer);
 				ImGui::Bullet();
 				ImGui::Checkbox("计算器2.0", &show_calculator);
 				ImGui::Bullet();
@@ -497,7 +506,11 @@ int main()
 						ImGui::SliderFloat("矩形圆角", &box_yj, 1.0f, 100.0f);
 						ImGui::TreePop();
 					}
-
+					if (ImGui::TreeNode("速度"))
+					{
+						ImGui::SliderInt("速度", &speed, 1, 360);
+						ImGui::TreePop();
+					}
 					if (ImGui::TreeNode("宽度"))
 					{
 						ImGui::SliderFloat("圆形粗细", &Circle_cx, 1.0f, 10.0f);

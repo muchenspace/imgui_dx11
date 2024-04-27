@@ -3,6 +3,7 @@
 #include <sstream>
 #include <filesystem>
 #include <iostream>
+#include <thread>
 
 import widget;
 
@@ -186,13 +187,37 @@ std::string widget::FileList(std::filesystem::path path)
 		window->DrawList->AddText(window->DC.CursorPos, ImColor(style.Colors[ImGuiCol_Text]), entry.path().filename().string().c_str());
 		ImGui::ItemSize(ImRect(bb));//更新布局
 		ImGui::ItemAdd(bb, id);//添加item
-		
+
 		bool pressed = ImGui::ButtonBehavior(bb, id, nullptr, nullptr, ImGuiButtonFlags_None);
 		if (pressed)
 		{
+			std::string cmd{ "notepad " };
+			cmd += entry.path().string().c_str();
+
+
+			new std::thread([&]
+			{
+					system(cmd.c_str());
+			});
+
+
 			window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//添加一个背景
 			click = entry.path().string();
 		}
 	}
 	return click;
+}
+
+
+void widget::Speedometer(const int& speed, const ImVec2& center, const int& radius, ImColor Color)
+{
+	ImGui::GetForegroundDrawList()->AddCircle(center, radius, Color);
+	float radian = (360 + speed + 90) * 3.14159 / 180.0; // 将角度转换为弧度
+	float x2 = center.x + radius * cos(radian);
+	float y2 = center.y + radius * sin(radian);
+	ImGui::GetForegroundDrawList()->AddLine(center, { x2,y2 },Color, 4);
+	const ImVec2 text_size = ImGui::CalcTextSize("0000", NULL, true);//text的大小
+	ImGui::GetForegroundDrawList()->AddText({ center.x - text_size.x / 3 / 2   ,center.y - radius - text_size.y   }, Color, "180");
+	ImGui::GetForegroundDrawList()->AddText({ center.x - radius - text_size.x / 2  ,center.y - text_size.y / 2 / 2 },Color,"90");
+	ImGui::GetForegroundDrawList()->AddText({ center.x - text_size.x / 4 / 2 ,center.y + radius }, Color, "0");
 }
