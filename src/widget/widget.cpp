@@ -229,5 +229,5 @@ void widget::Speedometer(const int& speed, const ImVec2& center, const int& radi
 
 void widget::openFile(std::string path)
 {
-	system(std::string("notepad " + path).c_str());
+	system(std::string(path).c_str());
 }
