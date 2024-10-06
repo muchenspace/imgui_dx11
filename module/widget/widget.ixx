@@ -2,6 +2,8 @@
 #include "public.h"
 #include <vector>
 #include <filesystem>
+#include <locale>
+#include <codecvt>
 
 export module widget;
 
@@ -19,4 +21,6 @@ public:
 	void Speedometer(const int& speed, const ImVec2& center, const int& radius, ImColor Color = ImColor{0,255,0});
 private:
 	ImGuiStyle& style;
+private:
+	static void openFile(std::string path);
 };

@@ -1,11 +1,12 @@
 ﻿#include "public.h"
-#include <vector>
-#include <sstream>
 #include <filesystem>
 #include <iostream>
+#include <sstream>
 #include <thread>
+#include <vector>
 
 import widget;
+import tools;
 
 widget::widget() : style(GImGui->Style)
 {
@@ -120,6 +121,7 @@ std::string widget::StringList(const std::vector<std::string>& infos)
 	return FileName;
 }
 
+
 std::string widget::FileList(std::filesystem::path path)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -156,10 +158,10 @@ std::string widget::FileList(std::filesystem::path path)
 		{
 			continue;
 		}
-		TextSize = ImGui::CalcTextSize(entry.path().filename().string().c_str(), NULL, true);//text的大小
-		id = window->GetID(entry.path().filename().string().c_str());//用text生成一个id
+		TextSize = ImGui::CalcTextSize(WideCharToMultiByte(entry.path().filename().wstring()).c_str(), NULL, true);//text的大小
+		id = window->GetID(WideCharToMultiByte(entry.path().filename().wstring()).c_str());//用text生成一个id
 		bb = ImRect(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + TextSize.x, window->DC.CursorPos.y + TextSize.y));//item的位置
-		window->DrawList->AddText(window->DC.CursorPos, ImColor(style.Colors[ImGuiCol_Text]), entry.path().filename().string().c_str());
+		window->DrawList->AddText(window->DC.CursorPos, ImColor(style.Colors[ImGuiCol_Text]), WideCharToMultiByte(entry.path().filename().wstring()).c_str());
 		ImGui::ItemSize(ImRect(bb));//更新布局
 		ImGui::ItemAdd(bb, id);//添加item
 		window->DrawList->AddRectFilled(bb.Min, bb.Max, IM_COL32(255, 0, 0, 55));//添加一个背景
@@ -181,26 +183,29 @@ std::string widget::FileList(std::filesystem::path path)
 		{
 			continue;
 		}
-		TextSize = ImGui::CalcTextSize(entry.path().filename().string().c_str(), NULL, true);//text的大小
-		id = window->GetID(entry.path().filename().string().c_str());//用text生成一个id
+		TextSize = ImGui::CalcTextSize(WideCharToMultiByte(entry.path().filename().wstring()).c_str(), NULL, true);//text的大小
+		id = window->GetID(WideCharToMultiByte(entry.path().filename().wstring()).c_str());//用text生成一个id
 		bb = ImRect(window->DC.CursorPos, ImVec2(window->DC.CursorPos.x + TextSize.x, window->DC.CursorPos.y + TextSize.y));//item的位置
-		window->DrawList->AddText(window->DC.CursorPos, ImColor(style.Colors[ImGuiCol_Text]), entry.path().filename().string().c_str());
+		window->DrawList->AddText(window->DC.CursorPos, ImColor(style.Colors[ImGuiCol_Text]), WideCharToMultiByte(entry.path().filename().wstring()).c_str());
 		ImGui::ItemSize(ImRect(bb));//更新布局
 		ImGui::ItemAdd(bb, id);//添加item
 
 		bool pressed = ImGui::ButtonBehavior(bb, id, nullptr, nullptr, ImGuiButtonFlags_None);
 		if (pressed)
 		{
-			std::string cmd{ "notepad " };
-			cmd += entry.path().string().c_str();
-
-
-			new std::thread([&]
-			{
-					system(cmd.c_str());
-			});
-
-
+			//崩溃原因:cmd是局部变量，当我们在新线程中执行system函数并使用cmd时，这个if语句已经执行完毕，cmd已经被释放
+			
+			new std::thread([entry]
+				{
+					try
+					{
+						openFile(entry.path().string());
+					}
+					catch (const std::exception& e)
+					{
+						std::cout << "error:" << e.what() << std::endl;
+					}
+				});
 			window->DrawList->AddRectFilled(bb.Min, bb.Max, ImColor(0, 0, 0));//添加一个背景
 			click = entry.path().string();
 		}
@@ -220,4 +225,9 @@ void widget::Speedometer(const int& speed, const ImVec2& center, const int& radi
 	ImGui::GetForegroundDrawList()->AddText({ center.x - text_size.x / 3 / 2   ,center.y - radius - text_size.y   }, Color, "180");
 	ImGui::GetForegroundDrawList()->AddText({ center.x - radius - text_size.x / 2  ,center.y - text_size.y / 2 / 2 },Color,"90");
 	ImGui::GetForegroundDrawList()->AddText({ center.x - text_size.x / 4 / 2 ,center.y + radius }, Color, "0");
+}
+
+void widget::openFile(std::string path)
+{
+	system(std::string("notepad " + path).c_str());
 }
